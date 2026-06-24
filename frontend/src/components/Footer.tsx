@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="mt-auto bg-foreground/3 border-t border-border-color py-16 px-6 relative z-30 w-full">
+    <footer className="mt-auto bg-foreground/3 py-16 px-6 relative z-30 w-full">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
         <div className="flex flex-col">
           <span className="text-xl font-serif tracking-widest text-gold font-light">JA HOMES</span>

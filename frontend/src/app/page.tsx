@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, Compass, Sparkles, X } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import ScrollReveal from "../components/ScrollReveal";
 
 interface Hotspot {
   id: number;
@@ -120,14 +121,14 @@ export default function Home() {
               <div className="flex gap-4">
                 <Link
                   href="/projects"
-                  className="bg-white text-black hover:bg-zinc-200 text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-transform duration-300 hover:scale-105"
+                  className="bg-[#faf9f6] text-black hover:bg-zinc-200 text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-transform duration-300 hover:scale-105"
                   id="hero-explore-portfolio"
                 >
                   View Projects <ArrowRight size={14} />
                 </Link>
                 <Link
                   href="/book"
-                  className="glass-panel text-white hover:bg-white/10 text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-transform duration-300 hover:scale-105 border border-white/20"
+                  className="glass-panel text-[#faf9f6] hover:bg-[#faf9f6]/10 text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-transform duration-300 hover:scale-105 border border-[#faf9f6]/20"
                   id="hero-schedule-tour"
                 >
                   Book Private Tour
@@ -142,11 +143,11 @@ export default function Home() {
       </section>
 
       {/* 4. Interactive Material Tour */}
-      <section id="virtual-tour" className="py-24 bg-foreground/2 relative z-30 border-t border-b border-border-color">
+      <section id="virtual-tour" className="py-24 bg-foreground/2 relative z-30">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             {/* Left Copy */}
-            <div className="w-full lg:w-2/5 flex flex-col gap-6">
+            <ScrollReveal className="w-full lg:w-2/5 flex flex-col gap-6">
               <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em] block">
                 Architectural Detailing
               </span>
@@ -204,10 +205,10 @@ export default function Home() {
                   </div>
                 )}
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Right Interactive Hotspot Image Container */}
-            <div className="w-full lg:w-3/5">
+            <ScrollReveal className="w-full lg:w-3/5" delay={150}>
               <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-border-color shadow-2xl">
                 <Image
                   src="/villa_interior.png"
@@ -230,7 +231,7 @@ export default function Home() {
                       <span className={`absolute inset-0 rounded-full bg-amber-500 opacity-60 ${
                         isActive ? "scale-150 animate-ping" : "animate-ping"
                       }`} />
-                      <span className={`relative w-4 h-4 rounded-full border border-white transition-all duration-300 flex items-center justify-center text-[8px] font-bold ${
+                      <span className={`relative w-4 h-4 rounded-full border border-[#faf9f6] transition-all duration-300 flex items-center justify-center text-[8px] font-bold ${
                         isActive ? "bg-amber-500 text-black scale-125" : "bg-background text-foreground hover:scale-110"
                       }`}>
                         {hotspot.id}
@@ -246,35 +247,51 @@ export default function Home() {
                 <span>Viewport: Mock 3D Pan (Living Area)</span>
                 <span>Active Hotspots: {hotspots.length}</span>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
       {/* CTA section to direct to Projects */}
-      <section className="py-24 px-6 max-w-7xl mx-auto w-full relative z-30 text-center flex flex-col items-center gap-6">
-        <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em]">Next Steps</span>
-        <h2 className="text-3xl md:text-5xl font-serif text-foreground tracking-wide font-light max-w-xl">
-          Craft Your Bespoke Residence
-        </h2>
-        <p className="text-muted text-sm md:text-base max-w-md font-light leading-relaxed font-sans">
-          Navigate to our projects showcase to explore current structural completions or co-design your own architectural sanctuary.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 mt-4">
-          <Link
-            href="/projects"
-            className="bg-gold-gradient text-black font-semibold text-xs uppercase tracking-widest px-8 py-3.5 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg cursor-pointer"
-          >
-            Explore Projects
-          </Link>
-          <Link
-            href="/book"
-            className="bg-foreground/5 border border-border-color text-foreground font-semibold text-xs uppercase tracking-widest px-8 py-3.5 rounded-xl hover:bg-foreground/10 transition-all cursor-pointer"
-          >
-            Schedule Private Tour
-          </Link>
+      <ScrollReveal className="w-full relative bg-black overflow-hidden py-24 px-6 my-12">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-55"
+        >
+          <source src="https://res.cloudinary.com/dtmqv7oqq/video/upload/v1782285983/Futuristic_city_skyline_at_night_202606241246_xqfvb1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/40 to-background pointer-events-none" />
+
+        <div className="relative z-30 text-center flex flex-col items-center gap-6 max-w-4xl mx-auto">
+          <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em]">Next Steps</span>
+          <h2 className="text-3xl md:text-5xl font-serif text-foreground tracking-wide font-light max-w-xl">
+            Craft Your Bespoke Residence
+          </h2>
+          <p className="text-muted text-sm md:text-base max-w-md font-light leading-relaxed font-sans">
+            Navigate to our projects showcase to explore current structural completions or co-design your own architectural sanctuary.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <Link
+              href="/projects"
+              className="bg-gold-gradient text-black font-semibold text-xs uppercase tracking-widest px-8 py-3.5 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg cursor-pointer"
+            >
+              Explore Projects
+            </Link>
+            <Link
+              href="/book"
+              className="bg-foreground/5 border border-border-color text-[#faf9f6] hover:bg-foreground/10 text-xs font-semibold uppercase tracking-widest px-8 py-3.5 rounded-xl transition-all cursor-pointer backdrop-blur-sm"
+            >
+              Schedule Private Tour
+            </Link>
+          </div>
         </div>
-      </section>
+      </ScrollReveal>
 
       {/* Shared Footer */}
       <Footer />

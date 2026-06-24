@@ -17,6 +17,25 @@ export default function Header() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    
+    // Check initial scroll position
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     // Read bookings from localStorage to show badge
@@ -51,11 +70,17 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 glass-panel h-20 transition-all duration-300">
+      <header className={`fixed top-0 left-0 right-0 z-40 glass-panel transition-all duration-300 ${
+        isScrolled ? "h-14 shadow-lg backdrop-blur-md bg-background/80" : "h-20"
+      }`}>
         <div className="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-          <Link href="/" className="flex flex-col">
-            <span className="text-2xl font-serif tracking-widest text-gold font-light">JA HOMES</span>
-            <span className="text-[8px] font-mono tracking-[0.3em] text-muted uppercase">Luxury Real Estate</span>
+          <Link href="/" className="flex flex-col transition-all duration-300">
+            <span className={`font-serif tracking-widest text-gold font-light transition-all duration-300 ${
+              isScrolled ? "text-lg md:text-xl" : "text-2xl"
+            }`}>JA HOMES</span>
+            <span className={`font-mono tracking-[0.3em] text-muted uppercase transition-all duration-300 ${
+              isScrolled ? "text-[6px] mt-0" : "text-[8px] mt-0.5"
+            }`}>Luxury Real Estate</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -76,14 +101,44 @@ export default function Header() {
             >
               About Us
             </Link>
-            <Link
-              href="/projects"
-              className={`hover:text-amber-500 transition-colors ${
-                pathname === "/projects" ? "text-amber-500 font-semibold" : "text-foreground/80"
-              }`}
-            >
-              Projects
-            </Link>
+            <div className="relative group py-2">
+              <Link
+                href="/projects"
+                className={`hover:text-amber-500 transition-colors flex items-center gap-1.5 ${
+                  pathname.startsWith("/projects") ? "text-amber-500 font-semibold" : "text-foreground/80"
+                }`}
+              >
+                Projects
+                <span className="text-[8px] opacity-60 group-hover:rotate-180 transition-transform duration-300">▼</span>
+              </Link>
+              <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-48 glass-panel rounded-xl border border-amber-500/20 shadow-xl py-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
+                <Link
+                  href="/projects?filter=Aspen"
+                  className="block px-4 py-2 text-[10px] hover:bg-amber-500/10 hover:text-amber-500 transition-colors font-mono uppercase tracking-wider"
+                >
+                  Aspen, CO
+                </Link>
+                <Link
+                  href="/projects?filter=Malibu"
+                  className="block px-4 py-2 text-[10px] hover:bg-amber-500/10 hover:text-amber-500 transition-colors font-mono uppercase tracking-wider"
+                >
+                  Malibu, CA
+                </Link>
+                <Link
+                  href="/projects?filter=Manhattan"
+                  className="block px-4 py-2 text-[10px] hover:bg-amber-500/10 hover:text-amber-500 transition-colors font-mono uppercase tracking-wider"
+                >
+                  Manhattan, NY
+                </Link>
+                <div className="border-t border-border-color my-1"></div>
+                <Link
+                  href="/projects"
+                  className="block px-4 py-2 text-[10px] hover:bg-amber-500/10 hover:text-amber-500 transition-colors font-mono uppercase tracking-wider"
+                >
+                  All Projects
+                </Link>
+              </div>
+            </div>
             <Link
               href="/contact"
               className={`hover:text-amber-500 transition-colors ${
@@ -174,7 +229,9 @@ export default function Header() {
 
         {/* Mobile Navigation Drawer */}
         {isMenuOpen && (
-          <div className="md:hidden glass-panel border-t-0 border-x-0 w-full absolute top-20 left-0 py-6 px-6 flex flex-col gap-4 animate-fade-in-up shadow-xl">
+          <div className={`md:hidden glass-panel border-t-0 border-x-0 w-full absolute left-0 py-6 px-6 flex flex-col gap-4 animate-fade-in-up shadow-xl transition-all duration-300 ${
+            isScrolled ? "top-14" : "top-20"
+          }`}>
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
@@ -193,15 +250,40 @@ export default function Header() {
             >
               About Us
             </Link>
-            <Link
-              href="/projects"
-              onClick={() => setIsMenuOpen(false)}
-              className={`text-sm font-medium tracking-wider uppercase py-1 ${
-                pathname === "/projects" ? "text-amber-500 font-semibold" : "text-foreground"
-              }`}
-            >
-              Projects
-            </Link>
+            <div className="flex flex-col gap-1 py-1">
+              <Link
+                href="/projects"
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-sm font-medium tracking-wider uppercase ${
+                  pathname.startsWith("/projects") ? "text-amber-500 font-semibold" : "text-foreground"
+                }`}
+              >
+                Projects
+              </Link>
+              <div className="flex flex-col gap-1 pl-3 mt-1.5 border-l border-border-color">
+                <Link
+                  href="/projects?filter=Aspen"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-xs text-muted hover:text-amber-500 uppercase tracking-wider py-1"
+                >
+                  Aspen, CO
+                </Link>
+                <Link
+                  href="/projects?filter=Malibu"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-xs text-muted hover:text-amber-500 uppercase tracking-wider py-1"
+                >
+                  Malibu, CA
+                </Link>
+                <Link
+                  href="/projects?filter=Manhattan"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-xs text-muted hover:text-amber-500 uppercase tracking-wider py-1"
+                >
+                  Manhattan, NY
+                </Link>
+              </div>
+            </div>
             <Link
               href="/contact"
               onClick={() => setIsMenuOpen(false)}

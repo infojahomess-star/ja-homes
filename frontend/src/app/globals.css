@@ -29,11 +29,11 @@
 [data-theme="light"] {
   --background: #faf9f6; /* Elegant warm off-white (Alabaster) */
   --foreground: #0c1825; /* Deep navy blue for luxury contrast */
-  --card-bg: rgba(255, 255, 255, 0.7); /* Clean white glass card background */
+  --card-bg: rgba(250, 249, 246, 0.7); /* Off-white glass card background */
   --card-hover-border: rgba(14, 140, 226, 0.4);
   --border-color: rgba(12, 24, 37, 0.08);
   --border-glass: rgba(12, 24, 37, 0.05);
-  --input-bg: rgba(255, 255, 255, 0.9);
+  --input-bg: rgba(250, 249, 246, 0.9); /* Off-white input background */
   --input-border: rgba(12, 24, 37, 0.12);
   --text-muted: #3a4e69; /* Slate-blue for muted text */
   --text-subtle: #6a84a6; /* Subtle slate-blue */
@@ -45,6 +45,8 @@
   --color-card: var(--card-bg);
   --color-muted: var(--text-muted);
   --color-subtle: var(--text-subtle);
+  --color-border-color: var(--border-color);
+  --color-border-glass: var(--border-glass);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   

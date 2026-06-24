@@ -1,25 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Bed,
   Bath,
   Maximize,
   MapPin,
-  Mail,
   Layers,
   Hammer,
   Waves,
   Clock,
   Check,
   ArrowRight,
-  Download,
-  AlertCircle
+  Download
 } from "lucide-react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ScrollReveal from "../../components/ScrollReveal";
 
 interface Property {
   id: string;
@@ -42,8 +41,10 @@ interface ConfigOption {
   desc: string;
 }
 
-export default function Projects() {
+function ProjectsContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const filterQuery = searchParams.get("filter");
 
   // Configurator State
   const [selectedCladding, setSelectedCladding] = useState("slate");
@@ -101,12 +102,14 @@ export default function Projects() {
     { id: "marble", name: "Bianco Carrara Marble", price: 350000, desc: "Premium polished Italian stone slab paneling" }
   ];
 
+  // Flooring Options
   const flooringOptions: ConfigOption[] = [
     { id: "concrete", name: "Polished Concrete", price: 0, desc: "Industrial raw concrete finish with micro-gloss" },
     { id: "oak", name: "Smoked European Oak", price: 90000, desc: "Wide-plank brushed hardwood with dark stain" },
     { id: "travertine", name: "Tumbled Travertine", price: 180000, desc: "Natural warm beige stone tiles imported from Italy" }
   ];
 
+  // Amenity Options
   const amenityOptions: ConfigOption[] = [
     { id: "pool", name: "Infinity Edge Plunge Pool", price: 250000, desc: "Heated saltwater pool overlooking vistas" },
     { id: "spa", name: "Glass Wellness Spa & Sauna", price: 180000, desc: "Hemlock dry sauna and aromatherapy steam room" },
@@ -151,6 +154,11 @@ export default function Projects() {
     }, 3000);
   };
 
+  // Filter properties list based on search parameters
+  const filteredProperties = filterQuery
+    ? properties.filter(p => p.location.toLowerCase().includes(filterQuery.toLowerCase()))
+    : properties;
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-amber-500 selection:text-black">
       {/* Navigation Header */}
@@ -174,6 +182,19 @@ export default function Projects() {
           </p>
         </div>
 
+        {/* Active Location Filter Banner */}
+        {filterQuery && (
+          <div className="max-w-md mx-auto bg-amber-500/5 border border-amber-500/25 p-4 rounded-xl text-xs text-amber-400 mb-8 flex items-center justify-between animate-fade-in-up">
+            <span>Showing projects in <strong>{filterQuery}</strong></span>
+            <button
+              onClick={() => router.push("/projects")}
+              className="text-[10px] font-mono uppercase tracking-wider underline hover:text-foreground cursor-pointer text-amber-500 hover:text-amber-400 font-bold"
+            >
+              Show All
+            </button>
+          </div>
+        )}
+
         {/* Download blueprint Success Banner */}
         {downloadSuccess && (
           <div className="max-w-md mx-auto bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-xl text-xs text-emerald-400 mb-8 flex items-center gap-3 animate-fade-in-up">
@@ -187,104 +208,105 @@ export default function Projects() {
 
         {/* Listings Section */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32">
-          {properties.map((property) => (
-            <div
-              key={property.id}
-              className="glass-card rounded-2xl overflow-hidden flex flex-col"
-              id={`project-card-${property.id}`}
-            >
-              {/* Image Container */}
-              <div className="relative h-72 md:h-80 overflow-hidden group">
-                <Image
-                  src={property.image}
-                  alt={property.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-black/20" />
-                <div className="absolute top-4 left-4">
-                  <span className="glass-panel-light text-[10px] text-amber-300 font-mono tracking-wider uppercase px-3 py-1 rounded-full border border-amber-500/10">
-                    {property.tag}
-                  </span>
+          {filteredProperties.map((property, idx) => (
+            <ScrollReveal key={property.id} delay={idx * 100}>
+              <div
+                className="glass-card rounded-2xl overflow-hidden flex flex-col h-full shadow-lg"
+                id={`project-card-${property.id}`}
+              >
+                {/* Image Container */}
+                <div className="relative h-72 md:h-80 overflow-hidden group">
+                  <Image
+                    src={property.image}
+                    alt={property.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-black/20" />
+                  <div className="absolute top-4 left-4">
+                    <span className="glass-panel-light text-[10px] text-amber-300 font-mono tracking-wider uppercase px-3 py-1 rounded-full border border-amber-500/10">
+                      {property.tag}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-4 left-4">
+                    <span className="text-2xl font-serif text-foreground font-light tracking-wide">
+                      {property.price}
+                    </span>
+                  </div>
                 </div>
-                <div className="absolute bottom-4 left-4">
-                  <span className="text-2xl font-serif text-foreground font-light tracking-wide">
-                    {property.price}
-                  </span>
+
+                {/* Info Container */}
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-start justify-between mb-4">
+                    <h2 className="text-xl font-serif text-foreground tracking-wide font-light">
+                      {property.title}
+                    </h2>
+                    <div className="flex items-center gap-1 text-muted text-xs font-sans">
+                      <MapPin size={12} className="text-amber-500" />
+                      <span>{property.location.split(",")[0]}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-muted text-xs md:text-sm font-light font-sans mb-6 flex-1">
+                    Features custom environmental automation, high-performance triple-glazed panels, private wellness facilities, and sustainable timber architectures.
+                  </p>
+
+                  {/* Progress bar for construction stage */}
+                  <div className="mb-6 flex flex-col gap-2 font-mono text-[10px] text-muted">
+                    <div className="flex justify-between items-center">
+                      <span>Stage: {property.status}</span>
+                      <span className="text-amber-500 font-bold">{property.progress}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-foreground/5 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gold-gradient transition-all duration-1000"
+                        style={{ width: `${property.progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Specs List */}
+                  <div className="grid grid-cols-3 gap-2 py-4 border-t border-b border-border-color text-xs font-mono text-muted mb-6">
+                    <div className="flex flex-col items-center gap-1">
+                      <Bed size={14} className="text-amber-500/80" />
+                      <span>{property.beds} Beds</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1 border-l border-r border-border-color">
+                      <Bath size={14} className="text-amber-500/80" />
+                      <span>{property.baths} Baths</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1">
+                      <Maximize size={14} className="text-amber-500/80" />
+                      <span>{property.sqft.toLocaleString()} SqFt</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => handleScheduleViewing(property.title)}
+                      className="flex-1 text-center bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold uppercase tracking-wider py-3.5 rounded-xl border border-border-color hover:border-amber-500/30 text-foreground transition-all cursor-pointer"
+                    >
+                      Schedule Tour
+                    </button>
+                    <button
+                      onClick={() => handleDownloadBlueprints(property.title)}
+                      className="p-3 bg-amber-500/10 hover:bg-amber-500 hover:text-black border border-amber-500/20 text-amber-400 rounded-xl transition-all cursor-pointer flex items-center justify-center"
+                      title="Download Blueprints"
+                    >
+                      <Download size={15} />
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              {/* Info Container */}
-              <div className="p-6 flex flex-col flex-1">
-                <div className="flex items-start justify-between mb-4">
-                  <h2 className="text-xl font-serif text-foreground tracking-wide font-light">
-                    {property.title}
-                  </h2>
-                  <div className="flex items-center gap-1 text-muted text-xs font-sans">
-                    <MapPin size={12} className="text-amber-500" />
-                    <span>{property.location.split(",")[0]}</span>
-                  </div>
-                </div>
-
-                <p className="text-muted text-xs md:text-sm font-light font-sans mb-6 flex-1">
-                  Features custom environmental automation, high-performance triple-glazed panels, private wellness facilities, and sustainable timber architectures.
-                </p>
-
-                {/* Progress bar for construction stage */}
-                <div className="mb-6 flex flex-col gap-2 font-mono text-[10px] text-muted">
-                  <div className="flex justify-between items-center">
-                    <span>Stage: {property.status}</span>
-                    <span className="text-amber-500 font-bold">{property.progress}%</span>
-                  </div>
-                  <div className="w-full h-1.5 bg-foreground/5 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gold-gradient transition-all duration-1000"
-                      style={{ width: `${property.progress}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Specs List */}
-                <div className="grid grid-cols-3 gap-2 py-4 border-t border-b border-border-color text-xs font-mono text-muted mb-6">
-                  <div className="flex flex-col items-center gap-1">
-                    <Bed size={14} className="text-amber-500/80" />
-                    <span>{property.beds} Beds</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1 border-l border-r border-border-color">
-                    <Bath size={14} className="text-amber-500/80" />
-                    <span>{property.baths} Baths</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <Maximize size={14} className="text-amber-500/80" />
-                    <span>{property.sqft.toLocaleString()} SqFt</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => handleScheduleViewing(property.title)}
-                    className="flex-1 text-center bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold uppercase tracking-wider py-3.5 rounded-xl border border-border-color hover:border-amber-500/30 text-foreground transition-all cursor-pointer"
-                  >
-                    Schedule Tour
-                  </button>
-                  <button
-                    onClick={() => handleDownloadBlueprints(property.title)}
-                    className="p-3 bg-amber-500/10 hover:bg-amber-500 hover:text-black border border-amber-500/20 text-amber-400 rounded-xl transition-all cursor-pointer flex items-center justify-center"
-                    title="Download Blueprints"
-                  >
-                    <Download size={15} />
-                  </button>
-                </div>
-              </div>
-            </div>
+            </ScrollReveal>
           ))}
         </section>
 
         {/* Sanctuary Configurator Section */}
-        <section id="configurator" className="border-t border-border-color pt-24 mb-16">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+        <section id="configurator" className="pt-24 mb-16">
+          <ScrollReveal className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em] mb-3 block">
               Co-Design Console
             </span>
@@ -294,11 +316,11 @@ export default function Projects() {
             <p className="text-muted text-sm md:text-base leading-relaxed font-light font-sans">
               Interact with our materials configurator to build a custom estimate. Apply your specs directly to book a private briefing session.
             </p>
-          </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* Options grid (8 cols) */}
-            <div className="lg:col-span-8 flex flex-col gap-10">
+            <ScrollReveal className="lg:col-span-8 flex flex-col gap-10 w-full">
               {/* Cladding */}
               <div className="glass-panel p-6 rounded-2xl border border-border-color">
                 <div className="flex items-center gap-3 mb-6">
@@ -403,10 +425,10 @@ export default function Projects() {
                   ))}
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Invoice Sidebar (4 cols) */}
-            <div className="lg:col-span-4 lg:sticky lg:top-28">
+            <ScrollReveal className="lg:col-span-4 lg:sticky lg:top-28 w-full" delay={150}>
               <div className="glass-panel p-6 rounded-2xl border border-amber-500/20 flex flex-col gap-6 shadow-xl">
                 <div className="border-b border-border-color pb-4">
                   <span className="text-[10px] font-mono tracking-[0.25em] text-muted uppercase block mb-1">
@@ -473,7 +495,7 @@ export default function Projects() {
                   </p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </section>
       </main>
@@ -481,5 +503,13 @@ export default function Projects() {
       {/* Shared Footer */}
       <Footer />
     </div>
+  );
+}
+
+export default function Projects() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background text-foreground flex items-center justify-center">Loading Projects Console...</div>}>
+      <ProjectsContent />
+    </Suspense>
   );
 }

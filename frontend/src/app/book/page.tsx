@@ -536,7 +536,7 @@ function BookingPageContent() {
 
       {/* Bookings Passes Deck */}
       {myBookings.length > 0 && (
-        <section id="bookings-dashboard" className="border-t border-border-color pt-16">
+        <section id="bookings-dashboard" className="pt-16">
           <div className="flex items-center justify-between mb-12">
             <div>
               <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em] block mb-2">
