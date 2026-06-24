@@ -21,6 +21,46 @@ export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
 
+  // Testimonials Slider State
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [fadeTestimonial, setFadeTestimonial] = useState(true);
+  const [showAllTestimonials, setShowAllTestimonials] = useState(false);
+
+  // Testimonials Archive
+  const testimonials = [
+    {
+      quote: "JA Homes exceeded our wildest expectations. The biophilic design integration and floor-to-ceiling travertine fireplace have turned our mountain villa into an absolute sanctuary.",
+      client: "Sarah & Robert K., Aspen Collection",
+      stars: 5
+    },
+    {
+      quote: "The attention to detail and carbon-certified timber construction are unparalleled. Working with Julian and Sophia to co-design our coastal residence was a seamless, premium experience.",
+      client: "Michael D., Malibu Cove",
+      stars: 5
+    },
+    {
+      quote: "Absolute luxury matched with modern off-grid intelligence. Our home automatically regulates solar seasonal angles and geothermal heating, providing sustainable comfort year-round.",
+      client: "Dr. Elena V., Manhattan Heights",
+      stars: 5
+    }
+  ];
+
+  const handleNextTestimonial = () => {
+    setFadeTestimonial(false);
+    setTimeout(() => {
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+      setFadeTestimonial(true);
+    }, 200);
+  };
+
+  const handlePrevTestimonial = () => {
+    setFadeTestimonial(false);
+    setTimeout(() => {
+      setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+      setFadeTestimonial(true);
+    }, 200);
+  };
+
   // Hotspots Data
   const hotspots: Hotspot[] = [
     {
@@ -251,6 +291,111 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* 5. What Our Clients Are Saying (Testimonials) */}
+      <section className="py-24 bg-foreground/2 border-t border-b border-border-color relative z-30 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col items-center">
+          {/* Header */}
+          <ScrollReveal className="flex flex-col items-center text-center mb-12">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="h-[1px] w-8 bg-amber-500"></span>
+              <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em]">What Our Clients</span>
+              <span className="h-[1px] w-8 bg-amber-500"></span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-serif text-foreground tracking-wide font-light uppercase">
+              Are Saying
+            </h2>
+          </ScrollReveal>
+
+          {/* Testimonial Quote Frame */}
+          <div className="w-full max-w-3xl min-h-[220px] flex flex-col items-center justify-center text-center mb-10">
+            <div className={`transition-all duration-300 flex flex-col items-center ${
+              fadeTestimonial ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+            }`}>
+              {/* Huge Quote Icon */}
+              <span className="text-8xl font-serif text-amber-550/10 leading-none select-none">“</span>
+              
+              <p className="text-lg md:text-xl md:leading-relaxed font-serif font-light text-foreground max-w-2xl -mt-4 mb-6 italic">
+                {testimonials[activeTestimonial].quote}
+              </p>
+
+              {/* Stars */}
+              <div className="flex gap-1 mb-3 text-amber-500">
+                {Array.from({ length: testimonials[activeTestimonial].stars }).map((_, i) => (
+                  <span key={i} className="text-sm">★</span>
+                ))}
+              </div>
+
+              {/* Client Info */}
+              <span className="text-xs font-mono uppercase tracking-wider text-muted">
+                — {testimonials[activeTestimonial].client}
+              </span>
+            </div>
+          </div>
+
+          {/* Slider Controls */}
+          <ScrollReveal className="w-full flex items-center justify-center gap-6 md:gap-8 font-mono text-[10px] tracking-widest text-muted uppercase">
+            <button
+              onClick={handlePrevTestimonial}
+              className="hover:text-amber-500 transition-colors flex items-center gap-1 cursor-pointer font-bold"
+            >
+              ← Prev
+            </button>
+            <button
+              onClick={() => setShowAllTestimonials(true)}
+              className="glass-panel hover:bg-amber-500/10 hover:border-amber-500/30 px-5 py-2.5 rounded-none text-foreground border border-border-color transition-all cursor-pointer font-semibold"
+            >
+              View All Testimonials +
+            </button>
+            <button
+              onClick={handleNextTestimonial}
+              className="hover:text-amber-500 transition-colors flex items-center gap-1 cursor-pointer font-bold"
+            >
+              Next →
+            </button>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Testimonials Modal Overlay */}
+      {showAllTestimonials && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-md p-6">
+          <div className="glass-panel w-full max-w-3xl max-h-[85vh] rounded-3xl border border-border-color shadow-2xl p-8 overflow-y-auto flex flex-col animate-fade-in-up">
+            <div className="flex items-center justify-between border-b border-border-color pb-4 mb-6">
+              <div>
+                <span className="text-amber-500 text-[10px] font-mono uppercase tracking-wider block mb-1">Archive</span>
+                <h3 className="text-2xl font-serif font-light text-foreground">ALL CLIENT REVIEWS</h3>
+              </div>
+              <button
+                onClick={() => setShowAllTestimonials(false)}
+                className="text-muted hover:text-foreground cursor-pointer font-mono text-xs uppercase tracking-widest border border-border-color hover:border-foreground/30 px-3 py-1.5 rounded-lg"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-8 divide-y divide-border-color">
+              {testimonials.map((t, idx) => (
+                <div key={idx} className={`pt-6 ${idx === 0 ? "pt-0" : ""}`}>
+                  <p className="text-sm md:text-base leading-relaxed text-foreground/90 font-serif italic mb-4">
+                    "{t.quote}"
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono uppercase tracking-wider text-muted">
+                      — {t.client}
+                    </span>
+                    <div className="flex gap-0.5 text-amber-500">
+                      {Array.from({ length: t.stars }).map((_, i) => (
+                        <span key={i} className="text-xs">★</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* CTA section to direct to Projects */}
       <ScrollReveal className="w-full relative bg-black overflow-hidden py-24 px-6 my-12">
