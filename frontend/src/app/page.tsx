@@ -162,14 +162,14 @@ export default function Home() {
               <div className="flex gap-4">
                 <Link
                   href="/projects"
-                  className="bg-[#faf9f6] text-black hover:bg-zinc-200 text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-transform duration-300 hover:scale-105"
+                  className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-400 text-white shadow-[0_4px_20px_rgba(14,140,226,0.3)] hover:shadow-[0_6px_25px_rgba(14,140,226,0.5)] text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95"
                   id="hero-explore-portfolio"
                 >
                   View Projects <ArrowRight size={14} />
                 </Link>
                 <Link
                   href="/book"
-                  className="glass-panel text-[#faf9f6] hover:bg-[#faf9f6]/10 text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-transform duration-300 hover:scale-105 border border-[#faf9f6]/20"
+                  className="glass-panel text-amber-300 hover:text-white hover:bg-gradient-to-r hover:from-amber-600 hover:to-amber-500 text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 border border-amber-500/30 hover:border-transparent hover:shadow-[0_4px_15px_rgba(14,140,226,0.25)]"
                   id="hero-schedule-tour"
                 >
                   Book Private Tour
