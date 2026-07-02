@@ -19,17 +19,24 @@ export default function Footer() {
                   <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
                 </svg>
               </a>
-              <a href="https://instagram.com/jahomes" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full glass-panel border border-border-color hover:border-amber-500/30 flex items-center justify-center text-foreground hover:text-amber-500 transition-all duration-300" aria-label="Instagram">
+              <a href="https://instagram.com/jahomes_re" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full glass-panel border border-border-color hover:border-amber-500/30 flex items-center justify-center text-foreground hover:text-amber-500 transition-all duration-300" aria-label="Instagram">
                 <svg className="w-4 h-4 stroke-current fill-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
-              <a href="https://linkedin.com/company/jahomes" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full glass-panel border border-border-color hover:border-amber-500/30 flex items-center justify-center text-foreground hover:text-amber-500 transition-all duration-300" aria-label="LinkedIn">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              <a href="https://wa.me/919811086206?text=Hello%2C%20I%20am%20interested%20in%20JA%20Homes" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full glass-panel border border-border-color hover:border-amber-500/30 flex items-center justify-center text-foreground hover:text-amber-500 transition-all duration-300" aria-label="WhatsApp">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                  <path d="M16.5 16c-.16.14-.35.25-.57.29-.2.03-.43.02-.68-.03-.26-.06-.57-.16-.94-.32a9.12 9.12 0 0 1-2.48-1.72 9.4 9.4 0 0 1-1.74-2.52c-.15-.29-.25-.54-.3-.76-.05-.23-.05-.44-.01-.63.04-.2.13-.37.26-.5.06-.06.12-.13.2-.21.07-.08.14-.15.21-.21.16-.14.33-.21.48-.19.16.02.29.13.39.31l.6 1.09c.09.16.15.28.18.37.03.1.02.2-.04.3-.06.11-.13.23-.22.36-.08.11-.15.2-.18.25-.03.05-.03.11-.01.18.06.2.22.46.46.77.25.3.52.56.81.77.16.11.3.19.41.22.1.04.2.03.3-.02.1-.05.21-.14.33-.26.11-.12.2-.23.27-.33.07-.1.17-.13.3-.1.14.04.4.15.77.34l1.1.58c.11.06.19.12.24.18.05.06.07.15.06.26-.01.1-.06.24-.15.42z" />
                 </svg>
+              </a>
+              <a href="tel:+919811086206" className="w-9 h-9 rounded-full glass-panel border border-border-color hover:border-amber-500/30 flex items-center justify-center text-foreground hover:text-amber-500 transition-all duration-300" aria-label="Call">
+                <Phone size={16} strokeWidth={1.5} />
+              </a>
+              <a href="mailto:info.jahomess@gmail.com" className="w-9 h-9 rounded-full glass-panel border border-border-color hover:border-amber-500/30 flex items-center justify-center text-foreground hover:text-amber-500 transition-all duration-300" aria-label="Message">
+                <Mail size={16} strokeWidth={1.5} />
               </a>
             </div>
           </div>
@@ -51,22 +58,37 @@ export default function Footer() {
           <div className="flex flex-col gap-4 items-center md:items-end text-center md:text-right text-xs text-muted">
             <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted">Contact</span>
             
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2 justify-center md:justify-end">
-                <span className="text-foreground leading-normal max-w-xs">
-                  100 Aspen Heights Drive, Suite A, Aspen, CO 81611
+                <span className="text-foreground leading-normal max-w-xs text-right">
+                  100 Aspen Heights Drive, Aspen, CO 81611
                 </span>
                 <MapPin size={13} className="text-amber-500 shrink-0" />
               </div>
+
               <div className="flex items-center gap-2 justify-center md:justify-end">
-                <a href="tel:+18008889999" className="hover:text-amber-500 transition-colors text-foreground">
-                  +1 (800) 888-9999
-                </a>
+                <div className="flex flex-col items-center md:items-end">
+                  <a href="https://wa.me/919811086206?text=Hello%2C%20I%20am%20interested%20in%20JA%20Homes" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors text-foreground">
+                    +91 98110 86206
+                  </a>
+                  <span className="text-[9px] text-muted uppercase tracking-wider">Arjun</span>
+                </div>
                 <Phone size={13} className="text-amber-500 shrink-0" />
               </div>
+
               <div className="flex items-center gap-2 justify-center md:justify-end">
-                <a href="mailto:concierge@jahomes.com" className="hover:text-amber-500 transition-colors text-foreground">
-                  concierge@jahomes.com
+                <div className="flex flex-col items-center md:items-end">
+                  <a href="https://wa.me/919348402331?text=Hello%2C%20I%20am%20interested%20in%20JA%20Homes" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors text-foreground">
+                    +91 93484 02331
+                  </a>
+                  <span className="text-[9px] text-muted uppercase tracking-wider">Harendra Kumar Omvik</span>
+                </div>
+                <Phone size={13} className="text-amber-500 shrink-0" />
+              </div>
+
+              <div className="flex items-center gap-2 justify-center md:justify-end">
+                <a href="mailto:info.jahomess@gmail.com" className="hover:text-amber-500 transition-colors text-foreground">
+                  info.jahomess@gmail.com
                 </a>
                 <Mail size={13} className="text-amber-500 shrink-0" />
               </div>
