@@ -105,22 +105,22 @@ export default function Header() {
               </Link>
               <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-48 glass-panel rounded-xl border border-amber-500/20 shadow-xl py-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50">
                 <Link
-                  href="/projects?filter=Aspen"
+                  href="/projects?filter=Completed"
                   className="block px-4 py-2 text-[10px] hover:bg-amber-500/10 hover:text-amber-500 transition-colors font-mono uppercase tracking-wider"
                 >
-                  Aspen, CO
+                  Completed
                 </Link>
                 <Link
-                  href="/projects?filter=Malibu"
+                  href="/projects?filter=Ongoing"
                   className="block px-4 py-2 text-[10px] hover:bg-amber-500/10 hover:text-amber-500 transition-colors font-mono uppercase tracking-wider"
                 >
-                  Malibu, CA
+                  Ongoing
                 </Link>
                 <Link
-                  href="/projects?filter=Manhattan"
+                  href="/projects?filter=Upcoming"
                   className="block px-4 py-2 text-[10px] hover:bg-amber-500/10 hover:text-amber-500 transition-colors font-mono uppercase tracking-wider"
                 >
-                  Manhattan, NY
+                  Upcoming
                 </Link>
                 <div className="border-t border-border-color my-1"></div>
                 <Link
@@ -245,25 +245,25 @@ export default function Header() {
               </Link>
               <div className="flex flex-col gap-1 pl-3 mt-1.5 border-l border-border-color">
                 <Link
-                  href="/projects?filter=Aspen"
+                  href="/projects?filter=Completed"
                   onClick={() => setIsMenuOpen(false)}
                   className="text-xs text-muted hover:text-amber-500 uppercase tracking-wider py-1"
                 >
-                  Aspen, CO
+                  Completed
                 </Link>
                 <Link
-                  href="/projects?filter=Malibu"
+                  href="/projects?filter=Ongoing"
                   onClick={() => setIsMenuOpen(false)}
                   className="text-xs text-muted hover:text-amber-500 uppercase tracking-wider py-1"
                 >
-                  Malibu, CA
+                  Ongoing
                 </Link>
                 <Link
-                  href="/projects?filter=Manhattan"
+                  href="/projects?filter=Upcoming"
                   onClick={() => setIsMenuOpen(false)}
                   className="text-xs text-muted hover:text-amber-500 uppercase tracking-wider py-1"
                 >
-                  Manhattan, NY
+                  Upcoming
                 </Link>
               </div>
             </div>

@@ -56,17 +56,18 @@ function ProjectsContent() {
   // Properties Data
   const properties: Property[] = [
     {
-      id: "alpine-crest",
-      title: "The Alpine Crest",
-      price: "$14,800,000",
-      beds: 5,
-      baths: 6,
-      sqft: 8200,
-      location: "Completed",
-      image: "/alpine_crest.jpg",
-      tag: "Signature Mountain",
-      progress: 100,
-      status: "Fully Completed & Commissioned"
+      id: "om-sai-ashraya",
+      title: "Om Sai Ashraya",
+      price: "₹1.20 Cr",
+      beds: 3,
+      baths: 3,
+      sqft: 2500,
+      location: "Completed (Phulnakhara)",
+      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      tag: "Premium Residential",
+      progress: 15,
+      status: "Completion in 1.5 Years",
+      description: "An upcoming luxury residential enclave in Phulnakhara offering bespoke architectural elegance, vast open spaces, and premium lifestyle amenities designed for absolute comfort."
     },
     {
       id: "azure-cove",
@@ -93,20 +94,6 @@ function ProjectsContent() {
       tag: "City Skyline",
       progress: 60,
       status: "Interior Framing & HVAC"
-    },
-    {
-      id: "om-sai-ashraya",
-      title: "Om Sai Ashraya",
-      price: "₹1.20 Cr",
-      beds: 3,
-      baths: 3,
-      sqft: 2500,
-      location: "Phulnakhara",
-      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
-      tag: "Premium Residential",
-      progress: 15,
-      status: "Completion in 1.5 Years",
-      description: "An upcoming luxury residential enclave in Phulnakhara offering bespoke architectural elegance, vast open spaces, and premium lifestyle amenities designed for absolute comfort."
     }
   ];
 
