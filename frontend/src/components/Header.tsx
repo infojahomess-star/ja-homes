@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Sun, Moon, User, LogOut, Menu, X } from "lucide-react";
 import { useTheme } from "../app/context/ThemeContext";
@@ -74,13 +75,20 @@ export default function Header() {
         isScrolled ? "h-14 shadow-lg backdrop-blur-md bg-background/80" : "h-20"
       }`}>
         <div className="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
-          <Link href="/" className="flex flex-col transition-all duration-300">
-            <span className={`font-serif tracking-widest text-gold font-light transition-all duration-300 ${
-              isScrolled ? "text-lg md:text-xl" : "text-2xl"
-            }`}>JA HOMES</span>
-            <span className={`font-mono tracking-[0.3em] text-muted uppercase transition-all duration-300 ${
-              isScrolled ? "text-[6px] mt-0" : "text-[8px] mt-0.5"
-            }`}>Luxury Real Estate</span>
+          <Link href="/" className="flex items-center transition-all duration-300">
+            <Image
+              src="https://res.cloudinary.com/pctbshnp/image/upload/v1783009909/logo_darkk_rkhfqc.png"
+              alt="JA Homes Logo"
+              width={150}
+              height={36}
+              priority
+              className={`transition-all duration-300 w-auto object-contain ${
+                isScrolled ? "h-8" : "h-11"
+              }`}
+              style={{
+                filter: theme === "dark" ? "invert(1) brightness(1.2)" : "none",
+              }}
+            />
           </Link>
 
           {/* Desktop Navigation */}

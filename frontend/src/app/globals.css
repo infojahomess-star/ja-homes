@@ -47,7 +47,8 @@
   --color-subtle: var(--text-subtle);
   --color-border-color: var(--border-color);
   --color-border-glass: var(--border-glass);
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-raleway), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-raleway), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   
   /* Overwrite amber colors to luxury blue shades for tailwind class mappings */

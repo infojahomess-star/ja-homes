@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useTheme } from "../app/context/ThemeContext";
 
 export default function Footer() {
+  const { theme } = useTheme();
   return (
     <footer className="mt-auto bg-foreground/3 pt-16 pb-8 px-6 relative z-30 w-full border-t border-border-color">
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
@@ -42,11 +47,21 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Logo Branding */}
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="text-2xl font-serif tracking-widest text-gold font-light">JA HOMES</span>
-            <span className="text-[9px] font-mono tracking-[0.3em] text-muted uppercase">Luxury Real Estate</span>
+          <div className="flex flex-col items-center gap-3">
+            <Link href="/" className="flex items-center transition-all duration-300">
+              <Image
+                src="https://res.cloudinary.com/pctbshnp/image/upload/v1783009909/logo_darkk_rkhfqc.png"
+                alt="JA Homes Logo"
+                width={150}
+                height={36}
+                className="h-10 w-auto object-contain transition-all duration-300"
+                style={{
+                  filter: theme === "dark" ? "invert(1) brightness(1.2)" : "none",
+                }}
+              />
+            </Link>
             
-            <div className="flex gap-4 text-[10px] font-mono uppercase tracking-wider text-muted/80 mt-3">
+            <div className="flex gap-4 text-[10px] font-mono uppercase tracking-wider text-muted/80 mt-1">
               <Link href="/about" className="hover:text-amber-500 transition-colors">About Us</Link>
               <Link href="/projects" className="hover:text-amber-500 transition-colors">Projects</Link>
               <Link href="/contact" className="hover:text-amber-500 transition-colors">Contact</Link>
