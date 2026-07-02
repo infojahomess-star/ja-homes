@@ -71,7 +71,7 @@ export default function Footer() {
                   <a href="https://wa.me/919811086206?text=Hello%2C%20I%20am%20interested%20in%20JA%20Homes" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors text-foreground">
                     +91 98110 86206
                   </a>
-                  <span className="text-[9px] text-muted uppercase tracking-wider">Arjun</span>
+                  <span className="text-[9px] text-muted uppercase tracking-wider">Arjun Karthik Bera</span>
                 </div>
                 <Phone size={13} className="text-amber-500 shrink-0" />
               </div>

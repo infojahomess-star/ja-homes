@@ -41,32 +41,25 @@ export default function About() {
 
   const team: TeamMember[] = [
     {
-      name: "Julian Sterling",
-      role: "Founding Principal & Architect",
-      bio: "Julian is the visionary lead behind the biophilic architectures at JA Homes. With over 20 years in high-end sustainable architecture, he crafts spaces that naturally integrate with their geological surroundings.",
-      image: "/team1.jpg",
-      spec: "Yale M.Arch, LEED Fellow"
+      name: "Debiprasad Deo",
+      role: "Real Estate Marketing",
+      bio: "Debiprasad brings 8+ years of experience in real estate marketing, ensuring our bespoke architectural masterpieces reach the right visionary clientele across global markets.",
+      image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Debiprasad_Deo_tsg4gr.jpg",
+      spec: "Marketing Director"
     },
     {
-      name: "Sophia Vance",
-      role: "Director of Interior Architecture",
-      bio: "Sophia specializes in minimal tactile luxury. She curates raw material palettes—from Tuscan travertine stone to brushed smoked oak—creating a harmonious dialog between structural timber and internal sanctuaries.",
-      image: "/team2.jpg",
-      spec: "Milan Design Academy"
+      name: "Arjun Karthik Bera",
+      role: "Client Relations & Acquisitions",
+      bio: "Arjun manages our exclusive client portfolio, ensuring seamless transitions from initial consultation to the final handover of our luxury properties.",
+      image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Arjun_ez5php.jpg",
+      spec: "Luxury Consultant"
     },
     {
-      name: "Dr. Aris Thorne",
-      role: "Eco-Engineering Director",
-      bio: "Aris leads our structural engineering division, pioneering high-performance envelope designs, custom bioethanol double-sided hearth integrations, and carbon-neutral geothermal heating systems.",
-      image: "/team3.jpg",
-      spec: "MIT PhD, Environmental Engineering"
-    },
-    {
-      name: "Elena Rostova",
-      role: "Director of Concierge Relations",
-      bio: "Elena coordinates private tours and co-design contracts. She ensures every client's custom envelope and flooring configuration matches their lifestyle requirements with absolute confidentiality.",
-      image: "/team4.jpg",
-      spec: "Oxford Business School"
+      name: "Harendra Kumar Omvik",
+      role: "Senior Property Advisor",
+      bio: "Harendra specializes in matching high-net-worth individuals with their ideal biophilic sanctuaries, bringing years of expertise in luxury markets.",
+      image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Harendra_kyqarb.jpg",
+      spec: "Estate Advisor"
     }
   ];
 
@@ -205,12 +198,16 @@ export default function About() {
                   <div className={`glass-card rounded-3xl overflow-hidden border border-border-color hover:border-amber-500/20 flex flex-col lg:flex-row ${
                     isEven ? "" : "lg:flex-row-reverse"
                   }`}>
-                    {/* Visual Initials Avatar Box */}
+                    {/* Visual Avatar Box */}
                     <div className="lg:w-2/5 h-64 lg:h-72 bg-foreground/5 relative flex items-center justify-center overflow-hidden group shrink-0 border-b lg:border-b-0 lg:border-r border-border-color">
-                      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/10 z-10" />
-                      <span className="text-7xl font-serif text-amber-500/10 group-hover:scale-110 transition-transform duration-700 select-none">
-                        {member.name.split(" ").map(n => n[0]).join("")}
-                      </span>
+                      {member.image.includes("res.cloudinary.com") ? (
+                        <img src={member.image} alt={member.name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
+                      ) : (
+                        <span className="text-7xl font-serif text-amber-500/10 group-hover:scale-110 transition-transform duration-700 select-none">
+                          {member.name.split(" ").map(n => n[0]).join("")}
+                        </span>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/20 z-10 pointer-events-none" />
                       
                       {/* Absolute positioning details */}
                       <div className="absolute bottom-4 left-4 z-20">
