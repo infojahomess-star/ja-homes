@@ -49,17 +49,17 @@ export default function About() {
     },
     {
       name: "Arjun Karthik Bera",
-      role: "Client Relations & Acquisitions",
-      bio: "Arjun manages our exclusive client portfolio, ensuring seamless transitions from initial consultation to the final handover of our luxury properties.",
+      role: "Partner, CEO",
+      bio: "With over a decade of strategic leadership experience at prestigious firms like Bhutani Infra in Delhi, Arjun brings unparalleled expertise to JA Homes. His visionary approach to luxury real estate drives our commitment to delivering bespoke architectural masterpieces.",
       image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Arjun_ez5php.jpg",
-      spec: "Luxury Consultant"
+      spec: "CEO"
     },
     {
-      name: "Harendra Kumar Omvik",
-      role: "Senior Property Advisor",
-      bio: "Harendra specializes in matching high-net-worth individuals with their ideal biophilic sanctuaries, bringing years of expertise in luxury markets.",
+      name: "Harendra Kumar",
+      role: "Manager & Sales Head",
+      bio: "Harendra possesses an extensive background collaborating with premier real estate brands across Delhi and Bhubaneswar. His deep market insight and dedication to client relations ensure that every bespoke acquisition is a seamless and extraordinary experience.",
       image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Harendra_kyqarb.jpg",
-      spec: "Estate Advisor"
+      spec: "Sales Head"
     }
   ];
 
@@ -73,17 +73,33 @@ export default function About() {
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
         {/* Intro Section */}
-        <section className="text-center max-w-3xl mx-auto mb-20 animate-fade-in-up">
+        <section className="text-center max-w-4xl mx-auto mb-20 animate-fade-in-up">
           <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em] mb-3 block">
             Our Story
           </span>
-          <h1 className="text-4xl md:text-6xl font-serif tracking-wide font-light mb-6">
-            Architectural Sanctuaries
+          <h1 className="text-4xl md:text-5xl font-serif tracking-wide font-light mb-12">
+            A Legacy Built for Families
           </h1>
-          <p className="text-muted text-sm md:text-base leading-relaxed font-light font-sans">
-            JA Homes represents the intersection of luxury craftsmanship and eco-conscious engineering. 
-            We design residential monuments that offer absolute comfort while honoring the earth through carbon-neutral materials, sustainable sourcing, and modern off-grid intelligence.
-          </p>
+          <div className="flex flex-col gap-10 text-muted text-sm md:text-base leading-relaxed font-light font-sans text-left md:text-center">
+            <div>
+              <h3 className="text-foreground font-serif text-xl mb-3 tracking-wide">The Journey</h3>
+              <p>
+                JA Homes is a uniquely crafted brand established by two devoted fathers who bring a wealth of experience in the real estate industry. The inspiration for its name comes from the cherished names of their daughters, creating a deeply personal connection to the brand. This thoughtful approach not only infuses each project with emotional significance but also showcases the passion, dedication, and commitment that the founders pour into every home they develop. Each residence they create is a testament to their desire to build living spaces that families will cherish for years to come.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-foreground font-serif text-xl mb-3 tracking-wide">Our Vision</h3>
+              <p>
+                Our vision is to transform the real estate industry by fostering communities where individuals and families feel a true sense of belonging. We aim to provide innovative, sustainable housing solutions that enhance the quality of life while promoting responsible development and environmental stewardship. Through collaboration and transparency, we aspire to empower our clients and partners, creating spaces that inspire and elevate the human experience in every neighborhood we touch.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-foreground font-serif text-xl mb-3 tracking-wide">Mission & Values</h3>
+              <p>
+                Our mission is to seamlessly merge architectural elegance with family-centric design, constructing premium homes that serve as emotional anchors for the families who inhabit them. At our core, we value family, integrity, and innovation. We believe that true luxury is found not just in aesthetics, but in the enduring quality and emotional resonance of a space. We remain committed to sustainable practices, ensuring that every foundation laid is built upon trust and a relentless pursuit of perfection.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* Cinematic Showcase Section */}

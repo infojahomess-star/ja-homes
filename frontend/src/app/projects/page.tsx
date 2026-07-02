@@ -32,6 +32,7 @@ interface Property {
   tag: string;
   progress: number;
   status: string;
+  description?: string;
 }
 
 interface ConfigOption {
@@ -92,6 +93,20 @@ function ProjectsContent() {
       tag: "City Skyline",
       progress: 60,
       status: "Interior Framing & HVAC"
+    },
+    {
+      id: "om-sai-ashraya",
+      title: "Om Sai Ashraya",
+      price: "₹1.20 Cr",
+      beds: 3,
+      baths: 3,
+      sqft: 2500,
+      location: "Phulnakhara",
+      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+      tag: "Premium Residential",
+      progress: 15,
+      status: "Completion in 1.5 Years",
+      description: "An upcoming luxury residential enclave in Phulnakhara offering bespoke architectural elegance, vast open spaces, and premium lifestyle amenities designed for absolute comfort."
     }
   ];
 
@@ -250,7 +265,7 @@ function ProjectsContent() {
                   </div>
 
                   <p className="text-muted text-xs md:text-sm font-light font-sans mb-6 flex-1">
-                    Features custom environmental automation, high-performance triple-glazed panels, private wellness facilities, and sustainable timber architectures.
+                    {property.description || "Features custom environmental automation, high-performance triple-glazed panels, private wellness facilities, and sustainable timber architectures."}
                   </p>
 
                   {/* Progress bar for construction stage */}

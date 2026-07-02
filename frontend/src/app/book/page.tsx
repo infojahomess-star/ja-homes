@@ -244,14 +244,19 @@ function BookingPageContent() {
     <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
       <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in-up">
         <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em] mb-3 block">
-          Concierge Desk
+          Consultation & Viewing
         </span>
         <h1 className="text-3xl md:text-5xl font-serif text-foreground tracking-wide font-light mb-6">
-          Schedule Private Viewing
+          Book Your Consultation
         </h1>
-        <p className="text-muted text-sm md:text-base leading-relaxed font-light font-sans">
-          Complete the form below to lock in a private tour appointment. You will receive an encrypted VIP viewing pass stored in your local profile.
-        </p>
+        <div className="flex flex-col gap-4 text-muted text-sm md:text-base leading-relaxed font-light font-sans">
+          <p>
+            Book your consultation with JA Homes today and let us help you design and build your dream home with expert guidance and premium craftsmanship.
+          </p>
+          <p className="text-xs border border-border-color bg-foreground/2 p-3 rounded-xl max-w-lg mx-auto mt-2">
+            <strong className="text-foreground">Instructions:</strong> Please fill out the form below with your preferred property, date, and contact details. Our concierge team will promptly confirm your VIP appointment pass.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">

@@ -30,18 +30,28 @@ export default function Home() {
   // Testimonials Archive
   const testimonials = [
     {
-      quote: "JA Homes exceeded our wildest expectations. The biophilic design integration and floor-to-ceiling travertine fireplace have turned our mountain villa into an absolute sanctuary.",
-      client: "Sarah & Robert K., Aspen Collection",
+      quote: "Working with JA Homes was an exceptional experience. Their professionalism, quality, and attention to detail exceeded our expectations.",
+      client: "Nilmalya Kar",
       stars: 5
     },
     {
-      quote: "The attention to detail and carbon-certified timber construction are unparalleled. Working with Julian and Sophia to co-design our coastal residence was a seamless, premium experience.",
-      client: "Michael D., Malibu Cove",
+      quote: "From the initial consultation to the final handover, the team demonstrated unmatched expertise. The custom eco-friendly integrations and premium finishes are truly breathtaking.",
+      client: "Rohan & Priya, Sapphire Heights",
       stars: 5
     },
     {
-      quote: "Absolute luxury matched with modern off-grid intelligence. Our home automatically regulates solar seasonal angles and geothermal heating, providing sustainable comfort year-round.",
-      client: "Dr. Elena V., Manhattan Heights",
+      quote: "We were looking for a residence that perfectly balanced modern architecture with natural landscapes. JA Homes delivered a masterpiece that feels both luxurious and organically connected to the environment.",
+      client: "Aman Gupta, Tech Entrepreneur",
+      stars: 5
+    },
+    {
+      quote: "The craftsmanship is unparalleled. Every material used, from the brushed oak flooring to the imported marble cladding, radiates quality. They genuinely redefine luxury real estate.",
+      client: "Dr. Sanjay Verma, Principal Surgeon",
+      stars: 5
+    },
+    {
+      quote: "JA Homes managed our bespoke property acquisition with absolute discretion and efficiency. The biophilic design elements they incorporated have transformed our daily living experience.",
+      client: "Kavita S., Managing Director",
       stars: 5
     }
   ];
@@ -202,9 +212,20 @@ export default function Home() {
                 loop={false}
                 startOnVisible={true}
               />
-              <p className="text-muted text-sm md:text-base leading-relaxed font-light font-sans">
-                Hover or click on the interactive hotspots in the custom living room design to examine the craftsmanship, source materials, and smart technologies integrated into a typical JA home.
-              </p>
+              <div className="flex flex-col gap-4 text-muted text-sm md:text-base leading-relaxed font-light font-sans">
+                <p>
+                  At JA Homes, our architectural design philosophy is rooted in biophilic harmony—creating luxury spaces that seamlessly integrate with their natural surroundings. We believe that true elegance lies in the delicate balance between striking modernism and organic warmth, engineering environments that breathe with the landscape.
+                </p>
+                <p>
+                  Uncompromising construction quality is the cornerstone of every sanctuary we build. From the precision-cut foundation to the structural integrity of our weather-resistant envelopes, our craftsmanship ensures that every residence is not just a home, but an enduring legacy built to withstand generations.
+                </p>
+                <p>
+                  We source only the finest, carbon-certified materials to bring our blueprints to life. Whether it is floor-to-ceiling split-face Italian travertine, sandblasted cedar timber beams, or bespoke brushed hardwood flooring, every material is meticulously selected for its tactile luxury and sustainable endurance.
+                </p>
+                <p className="text-xs italic text-amber-500/80 mt-2">
+                  (Note: Hover or click on the interactive hotspots to examine specific materials integrated into this living room design. Final detailed copy to be attached soon.)
+                </p>
+              </div>
               
               <div className="mt-4 flex flex-col gap-4">
                 <div className="flex items-center gap-3">

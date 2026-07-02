@@ -1,40 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #070708;
+  --background: #081121;
   --foreground: #f4f4f5;
-  --card-bg: rgba(15, 15, 18, 0.65);
-  --card-hover-border: rgba(14, 140, 226, 0.3);
+  --card-bg: rgba(8, 17, 33, 0.65);
+  --card-hover-border: rgba(41, 105, 194, 0.4);
   --border-color: rgba(255, 255, 255, 0.05);
   --border-glass: rgba(255, 255, 255, 0.05);
-  --input-bg: rgba(10, 10, 12, 0.6);
+  --input-bg: rgba(8, 17, 33, 0.6);
   --input-border: rgba(255, 255, 255, 0.08);
   --text-muted: #a1a1aa; /* zinc-400 */
   --text-subtle: #71717a; /* zinc-500 */
   
-  /* Brand Blue Palette (replacing gold variables to ensure theme consistency) */
+  /* Brand Blue Palette */
   --gold-50: #f0f7ff;
   --gold-100: #e0effe;
-  --gold-200: #bae0fd;
-  --gold-300: #7cc7fb;
-  --gold-400: #38a9f8;
-  --gold-500: #0e8ce2;
-  --gold-600: #0265b7;
-  --gold-700: #035094;
-  --gold-800: #07447a;
-  --gold-900: #0b3a66;
-  --gold-950: #072545;
+  --gold-200: #cce4fe;
+  --gold-300: #a1cffd;
+  --gold-400: #4e8cda;
+  --gold-500: #2969c2;
+  --gold-600: #1d4ed8;
+  --gold-700: #1e40af;
+  --gold-800: #1e3a8a;
+  --gold-900: #172554;
+  --gold-950: #0f172a;
 }
 
 [data-theme="light"] {
   --background: #faf9f6; /* Elegant warm off-white (Alabaster) */
-  --foreground: #0c1825; /* Deep navy blue for luxury contrast */
+  --foreground: #081121; /* Deep navy blue for luxury contrast */
   --card-bg: rgba(250, 249, 246, 0.7); /* Off-white glass card background */
-  --card-hover-border: rgba(14, 140, 226, 0.4);
-  --border-color: rgba(12, 24, 37, 0.08);
-  --border-glass: rgba(12, 24, 37, 0.05);
+  --card-hover-border: rgba(41, 105, 194, 0.4);
+  --border-color: rgba(8, 17, 33, 0.08);
+  --border-glass: rgba(8, 17, 33, 0.05);
   --input-bg: rgba(250, 249, 246, 0.9); /* Off-white input background */
-  --input-border: rgba(12, 24, 37, 0.12);
+  --input-border: rgba(8, 17, 33, 0.12);
   --text-muted: #3a4e69; /* Slate-blue for muted text */
   --text-subtle: #6a84a6; /* Subtle slate-blue */
 }
@@ -53,15 +53,15 @@
   /* Overwrite amber colors to luxury blue shades for tailwind class mappings */
   --color-amber-50: #f0f7ff;
   --color-amber-100: #e0effe;
-  --color-amber-200: #bae0fd;
-  --color-amber-300: #7cc7fb;
-  --color-amber-400: #38a9f8;
-  --color-amber-500: #0e8ce2;
-  --color-amber-600: #0265b7;
-  --color-amber-700: #035094;
-  --color-amber-800: #07447a;
-  --color-amber-900: #0b3a66;
-  --color-amber-950: #072545;
+  --color-amber-200: #cce4fe;
+  --color-amber-300: #a1cffd;
+  --color-amber-400: #4e8cda;
+  --color-amber-500: #2969c2;
+  --color-amber-600: #1d4ed8;
+  --color-amber-700: #1e40af;
+  --color-amber-800: #1e3a8a;
+  --color-amber-900: #172554;
+  --color-amber-950: #0f172a;
 }
 
 body {
@@ -120,29 +120,29 @@ body {
 
 .glass-card:hover {
   border-color: var(--card-hover-border);
-  box-shadow: 0 12px 40px -12px rgba(14, 140, 226, 0.15);
+  box-shadow: 0 12px 40px -12px rgba(41, 105, 194, 0.15);
   transform: translateY(-4px);
 }
 
 /* Luxury Brand Blue Text and Border Gradients (formerly gold) */
 .text-gold {
-  background: linear-gradient(135deg, #bae0fd 0%, #0e8ce2 50%, #035094 100%);
+  background: linear-gradient(135deg, #a1cffd 0%, #4e8cda 50%, #2969c2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 [data-theme="light"] .text-gold {
-  background: linear-gradient(135deg, #0e8ce2 0%, #035094 50%, #072545 100%);
+  background: linear-gradient(135deg, #4e8cda 0%, #2969c2 50%, #081121 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .bg-gold-gradient {
-  background: linear-gradient(135deg, #0e8ce2 0%, #0265b7 50%, #07447a 100%);
+  background: linear-gradient(135deg, #4e8cda 0%, #2969c2 50%, #1e40af 100%);
 }
 
 .border-gold-gradient {
-  border-image: linear-gradient(to right, #0e8ce2, #07447a) 1;
+  border-image: linear-gradient(to right, #4e8cda, #1e40af) 1;
 }
 
 /* Animations */
@@ -164,11 +164,11 @@ body {
 @keyframes pulseGold {
   0%, 100% {
     opacity: 0.3;
-    box-shadow: 0 0 15px rgba(14, 140, 226, 0.1);
+    box-shadow: 0 0 15px rgba(41, 105, 194, 0.1);
   }
   50% {
     opacity: 0.7;
-    box-shadow: 0 0 25px rgba(14, 140, 226, 0.3);
+    box-shadow: 0 0 25px rgba(41, 105, 194, 0.3);
   }
 }
 
@@ -191,6 +191,6 @@ html {
 
 .gold-input:focus {
   outline: none;
-  border-color: rgba(14, 140, 226, 0.5);
-  box-shadow: 0 0 0 2px rgba(14, 140, 226, 0.15);
+  border-color: rgba(41, 105, 194, 0.5);
+  box-shadow: 0 0 0 2px rgba(41, 105, 194, 0.15);
 }
