@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Bed,
@@ -217,33 +218,63 @@ function ProjectsContent() {
                 id={`project-card-${property.id}`}
               >
                 {/* Image Container */}
-                <div className="relative h-72 md:h-80 overflow-hidden group">
-                  <Image
-                    src={property.image}
-                    alt={property.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-black/20" />
-                  <div className="absolute top-4 left-4">
-                    <span className="glass-panel-light text-[10px] text-amber-300 font-mono tracking-wider uppercase px-3 py-1 rounded-full border border-amber-500/10">
-                      {property.tag}
-                    </span>
+                {property.id === "om-sai-ashraya" ? (
+                  <Link href="/projects/om-sai-ashraya" className="block relative h-72 md:h-80 overflow-hidden group cursor-pointer">
+                    <Image
+                      src={property.image}
+                      alt={property.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-black/20" />
+                    <div className="absolute top-4 left-4">
+                      <span className="glass-panel-light text-[10px] text-amber-300 font-mono tracking-wider uppercase px-3 py-1 rounded-full border border-amber-500/10">
+                        {property.tag}
+                      </span>
+                    </div>
+                    <div className="absolute bottom-4 left-4">
+                      <span className="text-2xl font-serif text-foreground font-light tracking-wide">
+                        {property.price}
+                      </span>
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="relative h-72 md:h-80 overflow-hidden group">
+                    <Image
+                      src={property.image}
+                      alt={property.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-black/20" />
+                    <div className="absolute top-4 left-4">
+                      <span className="glass-panel-light text-[10px] text-amber-300 font-mono tracking-wider uppercase px-3 py-1 rounded-full border border-amber-500/10">
+                        {property.tag}
+                      </span>
+                    </div>
+                    <div className="absolute bottom-4 left-4">
+                      <span className="text-2xl font-serif text-foreground font-light tracking-wide">
+                        {property.price}
+                      </span>
+                    </div>
                   </div>
-                  <div className="absolute bottom-4 left-4">
-                    <span className="text-2xl font-serif text-foreground font-light tracking-wide">
-                      {property.price}
-                    </span>
-                  </div>
-                </div>
+                )}
 
                 {/* Info Container */}
                 <div className="p-6 flex flex-col flex-1">
                   <div className="flex items-start justify-between mb-4">
                     <h2 className="text-xl font-serif text-foreground tracking-wide font-light">
-                      {property.title}
+                      {property.id === "om-sai-ashraya" ? (
+                        <Link href="/projects/om-sai-ashraya" className="hover:text-amber-500 transition-colors">
+                          {property.title}
+                        </Link>
+                      ) : (
+                        property.title
+                      )}
                     </h2>
                     <div className="flex items-center gap-1 text-muted text-xs font-sans">
                       <MapPin size={12} className="text-amber-500" />
@@ -286,12 +317,21 @@ function ProjectsContent() {
                   </div>
 
                   <div className="flex gap-3">
-                    <button
-                      onClick={() => handleScheduleViewing(property.title)}
-                      className="flex-1 text-center bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold uppercase tracking-wider py-3.5 rounded-xl border border-border-color hover:border-amber-500/30 text-foreground transition-all cursor-pointer"
-                    >
-                      Schedule Tour
-                    </button>
+                    {property.id === "om-sai-ashraya" ? (
+                      <Link
+                        href="/projects/om-sai-ashraya"
+                        className="flex-1 text-center bg-amber-500/10 hover:bg-amber-500 hover:text-black text-xs font-semibold uppercase tracking-wider py-3.5 rounded-xl border border-amber-500/25 text-amber-400 transition-all cursor-pointer flex items-center justify-center font-sans"
+                      >
+                        View Details
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={() => handleScheduleViewing(property.title)}
+                        className="flex-1 text-center bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold uppercase tracking-wider py-3.5 rounded-xl border border-border-color hover:border-amber-500/30 text-foreground transition-all cursor-pointer"
+                      >
+                        Schedule Tour
+                      </button>
+                    )}
                     <button
                       onClick={() => handleDownloadBlueprints(property.title)}
                       className="p-3 bg-amber-500/10 hover:bg-amber-500 hover:text-black border border-amber-500/20 text-amber-400 rounded-xl transition-all cursor-pointer flex items-center justify-center"

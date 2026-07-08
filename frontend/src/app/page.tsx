@@ -25,7 +25,7 @@ const SCROLL_VIDEO_POSTER =
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80";
 
 const SCROLL_VIDEO_SRC =
-  "https://res.cloudinary.com/pctbshnp/video/upload/v1783064057/JA_homes_Home_Page_sdxzja.mp4";
+  "https://res.cloudinary.com/pctbshnp/video/upload/v1783491256/JA_HOMES_VIDEO_ylu27n.mp4";
 const SCROLL_VIDEO_DURATION = 20; // seconds
 
 export default function Home() {

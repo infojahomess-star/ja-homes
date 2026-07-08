@@ -98,23 +98,31 @@ export default function Contact() {
                   <Phone size={14} />
                 </span>
                 <span className="font-mono text-xs uppercase tracking-wider text-muted">Telephone</span>
-                <a href="tel:+18008889999" className="hover:text-amber-500 transition-colors">+1 (800) 888-9999</a>
+                <div className="flex flex-col items-center">
+                  <a href="tel:+919811086206" className="hover:text-amber-500 transition-colors">+91 98110 86206</a>
+                  <a href="tel:+919348402331" className="hover:text-amber-500 transition-colors mt-0.5">+91 93484 02331</a>
+                </div>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500">
                   <Mail size={14} />
                 </span>
                 <span className="font-mono text-xs uppercase tracking-wider text-muted">Email</span>
-                <a href="mailto:concierge@jahomes.com" className="hover:text-amber-500 transition-colors">concierge@jahomes.com</a>
+                <a href="mailto:info.jahomess@gmail.com" className="hover:text-amber-500 transition-colors">info.jahomess@gmail.com</a>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500">
                   <MapPin size={14} />
                 </span>
                 <span className="font-mono text-xs uppercase tracking-wider text-muted">Studio HQ</span>
-                <span className="text-center leading-relaxed max-w-xs">
-                  100 Aspen Heights Drive, Suite A, Aspen, CO 81611
-                </span>
+                <a
+                  href="https://share.google/F6gxsXy9KhpTmDwh5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-center leading-relaxed max-w-xs hover:text-amber-500 transition-colors duration-300 font-sans"
+                >
+                  Amanpada, Near DPS Kalinga, Phulnakhara
+                </a>
               </div>
             </div>
 
@@ -291,7 +299,7 @@ export default function Contact() {
       <section className="w-full h-[450px] relative z-20 border-t border-b border-border-color bg-foreground/2">
         <ScrollReveal duration={1000} className="w-full h-full">
           <iframe 
-            src="https://maps.google.com/maps?q=Aspen,%20Colorado&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+            src="https://maps.google.com/maps?q=Amanpada,%20Near%20DPS%20Kalinga,%20Phulnakhara&t=&z=14&ie=UTF8&iwloc=&output=embed" 
             width="100%" 
             height="100%" 
             style={{ border: 0, filter: "grayscale(0.6) invert(0.08) contrast(1.1)" }} 

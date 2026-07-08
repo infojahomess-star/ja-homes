@@ -75,9 +75,14 @@ export default function Footer() {
             
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-2 justify-center md:justify-end">
-                <span className="text-foreground leading-normal max-w-xs text-right">
-                  100 Aspen Heights Drive, Aspen, CO 81611
-                </span>
+                <a
+                  href="https://share.google/F6gxsXy9KhpTmDwh5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-amber-500 leading-normal max-w-xs text-right transition-colors duration-300"
+                >
+                  Amanpada, Near DPS Kalinga, Phulnakhara
+                </a>
                 <MapPin size={13} className="text-amber-500 shrink-0" />
               </div>
 
