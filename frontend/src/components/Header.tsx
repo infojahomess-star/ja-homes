@@ -82,6 +82,7 @@ export default function Header() {
               width={150}
               height={36}
               priority
+              loading="eager"
               className={`transition-all duration-300 w-auto object-contain ${
                 isScrolled ? "h-8" : "h-11"
               }`}
