@@ -20,6 +20,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "JA Homes | Luxury Sustainable Real Estate",
   description: "Exquisite sustainable architectural design and modern sanctuaries.",
+  icons: {
+    icon: "https://res.cloudinary.com/pctbshnp/image/upload/v1783009909/Logo_Dark_b6gafy.png?v=2",
+    shortcut: "https://res.cloudinary.com/pctbshnp/image/upload/v1783009909/Logo_Dark_b6gafy.png?v=2",
+    apple: "https://res.cloudinary.com/pctbshnp/image/upload/v1783009909/Logo_Dark_b6gafy.png?v=2",
+  },
 };
 
 export default function RootLayout({
