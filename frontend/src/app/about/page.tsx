@@ -19,6 +19,7 @@ interface TeamMember {
   image: string;
   spec: string;
   phone?: string;
+  objectPosition?: string;
 }
 
 export default function About() {
@@ -38,7 +39,12 @@ export default function About() {
       setRevealActive(false);
     }, 100);
 
-    // 2. Setup IntersectionObserver for clip-path unmask wipe
+    // 2. Trigger Tablet Mockup Wipe automatically after curtain opens
+    const wipeTimer = setTimeout(() => {
+      setIsWiped(true);
+    }, 700);
+
+    // 3. Setup IntersectionObserver for clip-path unmask wipe (backup/redundancy)
     const clipObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -46,11 +52,11 @@ export default function About() {
           clipObserver.unobserve(entry.target);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.05 }
     );
     if (imgRef.current) clipObserver.observe(imgRef.current);
 
-    // 3. Scroll Tilt Listener for Video Card Parallax
+    // 4. Scroll Tilt Listener for Video Card Parallax
     const handleScroll = () => {
       if (videoCardRef.current) {
         const rect = videoCardRef.current.getBoundingClientRect();
@@ -67,6 +73,7 @@ export default function About() {
 
     return () => {
       clearTimeout(timer);
+      clearTimeout(wipeTimer);
       clipObserver.disconnect();
       window.removeEventListener("scroll", handleScroll);
     };
@@ -92,13 +99,6 @@ export default function About() {
 
   const team: TeamMember[] = [
     {
-      name: "Debiprasad Deo",
-      role: "Real Estate Marketing",
-      bio: "Debiprasad brings 8+ years of experience in real estate marketing, ensuring our bespoke architectural masterpieces reach the right visionary clientele across global markets.",
-      image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Debiprasad_Deo_tsg4gr.jpg",
-      spec: "Marketing Director"
-    },
-    {
       name: "Arjun Karthik Bera",
       role: "Partner, CEO",
       bio: "With over a decade of strategic leadership experience at prestigious firms like Bhutani Infra in Delhi, Arjun brings unparalleled expertise to JA Homes. His visionary approach to luxury real estate drives our commitment to delivering bespoke architectural masterpieces.",
@@ -113,6 +113,14 @@ export default function About() {
       image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Harendra_kyqarb.jpg",
       spec: "Sales Head",
       phone: "919348402331"
+    },
+    {
+      name: "Debiprasad Deo",
+      role: "Real Estate Marketing",
+      bio: "Debiprasad brings 8+ years of experience in real estate marketing, ensuring our bespoke architectural masterpieces reach the right visionary clientele across global markets.",
+      image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Debiprasad_Deo_tsg4gr.jpg",
+      spec: "Marketing Director",
+      objectPosition: "object-[right_20%]"
     }
   ];
 
@@ -167,24 +175,120 @@ export default function About() {
             </CinematicReveal>
           </div>
 
-          {/* Right Column: Daughters' motif image with horizontal clip-path unmask wipe */}
-          <div className="lg:col-span-6 w-full">
+          {/* Right Column: Tablet Mockup UI with revealing clip-path animation */}
+          <div className="lg:col-span-6 w-full flex items-center justify-center">
             <div
               ref={imgRef}
-              className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden border border-border-color shadow-2xl transition-all duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl transition-all duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center p-8 md:p-12"
               style={{
                 clipPath: isWiped ? "inset(0 0 0 0)" : "inset(0 100% 0 0)",
+                background: "radial-gradient(circle at center, #7a9cb9 0%, #466c8f 100%)",
               }}
             >
-              <Image
-                src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1200&q=80"
-                alt="A warm, sun-drenched family moment inside a luxury wooden home"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+              {/* Subtle fabric noise overlay */}
+              <div className="absolute inset-0 noise-overlay opacity-10 pointer-events-none" />
+
+              {/* Tilted Tablet Frame */}
+              <div
+                className="relative w-[85%] aspect-[3/4] bg-[#0c0c0c] rounded-[2.2rem] p-[3%] border border-white/10 shadow-[0_30px_60px_rgba(0,0,0,0.5)] flex flex-col justify-center transition-transform duration-700 hover:scale-[1.02]"
+                style={{
+                  transform: "perspective(1200px) rotateX(12deg) rotateY(-20deg) rotateZ(14deg)",
+                }}
+              >
+                {/* Screen Content Wrapper */}
+                <div className="relative w-full h-full bg-[#faf9f6] rounded-[1.6rem] overflow-hidden border border-black/5 flex flex-col p-2.5 md:p-4 text-black gap-2 select-none pointer-events-none">
+                  {/* Top Bar inside tablet */}
+                  <div className="flex justify-between items-center w-full text-[5px] md:text-[7px] font-mono tracking-widest text-black/55 font-bold">
+                    <span>JA / COLLECTIONS</span>
+                    <span>FEATURED</span>
+                  </div>
+
+                  {/* Heading inside tablet */}
+                  <div className="text-center my-1 flex flex-col items-center gap-0.5">
+                    <span className="text-[5px] md:text-[7px] font-mono text-amber-600 tracking-wider uppercase">ARCHITECTURAL SELECTIONS</span>
+                    <h3 className="text-[9px] md:text-xs font-serif font-light text-black tracking-wide leading-tight max-w-[85%] uppercase">
+                      Selected for your atmosphere
+                    </h3>
+                  </div>
+
+                  {/* 4 Cards Grid inside tablet */}
+                  <div className="grid grid-cols-2 gap-2 flex-1 overflow-hidden mt-1">
+                    {/* Card 1 */}
+                    <div className="relative rounded-xl overflow-hidden border border-black/5 bg-white shadow-sm flex flex-col justify-between p-1.5">
+                      <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden">
+                        <Image
+                          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80"
+                          alt="Villa Opalina"
+                          fill
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-0.5 mt-1">
+                        <span className="text-[5px] md:text-[6px] text-amber-600 font-mono uppercase">LAKE Como, ITALY</span>
+                        <h4 className="text-[7px] md:text-[9px] font-serif font-semibold text-black uppercase truncate">Villa Opalina</h4>
+                      </div>
+                    </div>
+
+                    {/* Card 2 */}
+                    <div className="relative rounded-xl overflow-hidden border border-black/5 bg-white shadow-sm flex flex-col justify-between p-1.5">
+                      <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden">
+                        <Image
+                          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80"
+                          alt="Palazzo Verde"
+                          fill
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-0.5 mt-1">
+                        <span className="text-[5px] md:text-[6px] text-amber-600 font-mono uppercase">BIARRITZ, FRANCE</span>
+                        <h4 className="text-[7px] md:text-[9px] font-serif font-semibold text-black uppercase truncate">Palazzo Verde</h4>
+                      </div>
+                    </div>
+
+                    {/* Card 3 */}
+                    <div className="relative rounded-xl overflow-hidden border border-black/5 bg-white shadow-sm flex flex-col justify-between p-1.5">
+                      <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden">
+                        <Image
+                          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=400&q=80"
+                          alt="Atelier Penthouse"
+                          fill
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-0.5 mt-1">
+                        <span className="text-[5px] md:text-[6px] text-amber-600 font-mono uppercase">PARIS, FRANCE</span>
+                        <h4 className="text-[7px] md:text-[9px] font-serif font-semibold text-black uppercase truncate">Atelier Penthouse</h4>
+                      </div>
+                    </div>
+
+                    {/* Card 4 */}
+                    <div className="relative rounded-xl overflow-hidden border border-black/5 bg-white shadow-sm flex flex-col justify-between p-1.5">
+                      <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden">
+                        <Image
+                          src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80"
+                          alt="Casa Lumina"
+                          fill
+                          sizes="(max-width: 768px) 50vw, 25vw"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-0.5 mt-1">
+                        <span className="text-[5px] md:text-[6px] text-amber-600 font-mono uppercase">MYKONOS, GREECE</span>
+                        <h4 className="text-[7px] md:text-[9px] font-serif font-semibold text-black uppercase truncate">Casa Lumina</h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Tablet Footer */}
+                  <div className="flex justify-between items-center w-full text-[5px] md:text-[7px] text-black/40 font-mono tracking-wider pt-1.5 border-t border-black/5">
+                    <span>DESIGNED BY JA HOMES</span>
+                    <span>TRUSTED WORLDWIDE</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -428,6 +532,7 @@ export default function About() {
                 spec={member.spec}
                 phone={member.phone}
                 delay={idx * 150}
+                objectPosition={member.objectPosition}
               />
             ))}
           </div>
@@ -442,7 +547,7 @@ export default function About() {
               <span className="text-amber-500 text-xs font-mono uppercase tracking-[0.4em] relative z-20">Get Started</span>
               
               <h2 className="text-2xl md:text-4xl font-serif font-light tracking-wide max-w-xl text-foreground relative z-20">
-                Let's Co-Design Your Custom Sanctuary
+                Let&apos;s Co-Design Your Custom Sanctuary
               </h2>
               
               <p className="text-muted text-xs md:text-sm font-sans font-light max-w-md leading-relaxed relative z-20">

@@ -18,11 +18,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Read theme from localStorage or system preference
     const savedTheme = localStorage.getItem("ja-homes-theme") as Theme;
     if (savedTheme) {
-      setTheme(savedTheme);
+      requestAnimationFrame(() => {
+        setTheme(savedTheme);
+      });
       document.documentElement.setAttribute("data-theme", savedTheme);
     } else {
       // Default to light mode (off-white and blue)
-      setTheme("light");
+      requestAnimationFrame(() => {
+        setTheme("light");
+      });
       document.documentElement.setAttribute("data-theme", "light");
     }
   }, []);

@@ -23,7 +23,7 @@ interface TextTypeProps {
   onSentenceComplete?: (sentence: string, index: number) => void;
   startOnVisible?: boolean;
   reverseMode?: boolean;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export default function TextType({
@@ -105,7 +105,7 @@ export default function TextType({
   useEffect(() => {
     if (!isVisible) return;
 
-    let timeout: any;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     const currentText = textArray[currentTextIndex];
     const processedText = reverseMode ? currentText.split("").reverse().join("") : currentText;
 
@@ -153,7 +153,9 @@ export default function TextType({
       executeTypingAnimation();
     }
 
-    return () => clearTimeout(timeout);
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentCharIndex,
@@ -175,23 +177,25 @@ export default function TextType({
   const shouldHideCursor =
     hideCursorWhileTyping && (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-  return createElement(
-    Component,
-    {
-      ref: containerRef,
-      className: `text-type ${className}`,
-      ...props
-    },
-    <span className="text-type__content" style={{ color: getCurrentTextColor() || "inherit" }}>
-      {displayedText}
-    </span>,
-    showCursor && (
-      <span
-        ref={cursorRef}
-        className={`text-type__cursor ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
-      >
-        {cursorCharacter}
+  const Tag = Component as React.ElementType;
+
+  return (
+    <Tag
+      ref={containerRef}
+      className={`text-type ${className}`}
+      {...props}
+    >
+      <span className="text-type__content" style={{ color: getCurrentTextColor() || "inherit" }}>
+        {displayedText}
       </span>
-    )
+      {showCursor && (
+        <span
+          ref={cursorRef}
+          className={`text-type__cursor ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
+        >
+          {cursorCharacter}
+        </span>
+      )}
+    </Tag>
   );
 }

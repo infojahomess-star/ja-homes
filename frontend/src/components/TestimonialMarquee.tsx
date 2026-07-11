@@ -51,25 +51,28 @@ const testimonials: Testimonial[] = [
 ];
 
 // Subcomponent for each testimonial card to handle individual 3D tilt and staggered stars
-function TestimonialCard({ t }: { t: Testimonial }) {
+function TestimonialCard({ t, onClick }: { t: Testimonial; onClick: () => void }) {
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Disable tilt on mobile/touch screens
+    if (window.matchMedia("(hover: none)").matches) return;
+
     const card = e.currentTarget;
     const box = card.getBoundingClientRect();
     // Calculate mouse position relative to card center
     const x = e.clientX - box.left - box.width / 2;
     const y = e.clientY - box.top - box.height / 2;
     
-    // Degrees of rotation (max 12 deg)
-    const rotateX = -y / 15;
-    const rotateY = x / 15;
+    // Degrees of rotation (max 8 deg)
+    const rotateX = Math.max(-8, Math.min(8, -y / 20));
+    const rotateY = Math.max(-8, Math.min(8, x / 20));
     
     setTiltStyle({
-      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`,
-      transition: "transform 0.1s ease-out, box-shadow 0.3s ease",
-      boxShadow: "0 25px 50px -12px rgba(41, 105, 194, 0.25)"
+      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`,
+      transition: "transform 0.15s ease-out, box-shadow 0.3s ease",
+      boxShadow: "0 25px 50px -12px rgba(41, 105, 194, 0.3)"
     });
   };
 
@@ -77,7 +80,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
     setIsHovered(false);
     setTiltStyle({
       transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)",
-      transition: "transform 0.5s ease-out, box-shadow 0.5s ease",
+      transition: "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease",
       boxShadow: "none"
     });
   };
@@ -88,14 +91,15 @@ function TestimonialCard({ t }: { t: Testimonial }) {
 
   return (
     <div
+      onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={tiltStyle}
-      className="glass-card border border-border-color/80 p-8 rounded-2xl w-[320px] md:w-[380px] shrink-0 relative overflow-hidden backdrop-blur-md transition-all duration-300"
+      className="glass-card cursor-pointer border border-border-color/80 p-8 rounded-2xl w-[320px] md:w-[380px] shrink-0 relative overflow-hidden backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/marquee:opacity-60 hover:!opacity-100 hover:!scale-105 hover:!-translate-y-3 hover:shadow-2xl hover:shadow-amber-500/10 hover:border-amber-500/40 hover:z-20 will-change-transform-opacity"
     >
       {/* Radial ambient glow on hover */}
-      <div className={`absolute -top-12 -right-12 w-40 h-40 bg-amber-500/[0.03] blur-3xl rounded-full pointer-events-none transition-opacity duration-500 ${
+      <div className={`absolute -top-12 -right-12 w-40 h-40 bg-amber-500/[0.04] blur-3xl rounded-full pointer-events-none transition-opacity duration-500 ${
         isHovered ? "opacity-100" : "opacity-0"
       }`} />
 
@@ -145,7 +149,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
 
       {/* Card Quote */}
       <p className="text-sm leading-relaxed font-serif font-light text-foreground/80 italic relative z-10">
-        "{t.quote}"
+        &ldquo;{t.quote}&rdquo;
       </p>
     </div>
   );
@@ -153,6 +157,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
 
 export default function TestimonialMarquee() {
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [selectedReview, setSelectedReview] = useState<Testimonial | null>(null);
 
   // Triple the array to create seamless looping content
   const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
@@ -191,9 +196,9 @@ export default function TestimonialMarquee() {
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
 
         {/* Double-width moving flex track */}
-        <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] will-change-transform">
+        <div className="flex gap-6 animate-marquee hover:[animation-play-state:paused] will-change-transform group/marquee">
           {marqueeItems.map((item, idx) => (
-            <TestimonialCard key={idx} t={item} />
+            <TestimonialCard key={idx} t={item} onClick={() => setSelectedReview(item)} />
           ))}
         </div>
       </div>
@@ -219,7 +224,7 @@ export default function TestimonialMarquee() {
               {testimonials.map((t, idx) => (
                 <div key={idx} className={`pt-6 ${idx === 0 ? "pt-0" : ""}`}>
                   <p className="text-sm md:text-base leading-relaxed text-foreground/90 font-serif italic mb-4">
-                    "{t.quote}"
+                    &ldquo;{t.quote}&rdquo;
                   </p>
                   <div className="flex items-center justify-between">
                     <div>
@@ -230,7 +235,7 @@ export default function TestimonialMarquee() {
                         {t.property}
                       </span>
                     </div>
-                    <div className="flex gap-0.5 text-amber-500">
+                    <div className="flex gap-0.5 text-amber-550 dark:text-amber-500">
                       {Array.from({ length: t.stars }).map((_, i) => (
                         <span key={i} className="text-xs">★</span>
                       ))}
@@ -238,6 +243,50 @@ export default function TestimonialMarquee() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Selected Specific Review Modal */}
+      {selectedReview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-md p-6">
+          <div className="glass-panel w-full max-w-xl rounded-3xl border border-border-color shadow-2xl p-8 flex flex-col animate-fade-in-up">
+            <div className="flex items-center justify-between border-b border-border-color pb-4 mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gold-gradient text-black flex items-center justify-center font-mono font-semibold text-lg border border-white/10 shadow-md">
+                  {selectedReview.initials}
+                </div>
+                <div>
+                  <span className="text-sm font-mono uppercase tracking-wider text-foreground font-semibold block">
+                    {selectedReview.client}
+                  </span>
+                  <span className="text-[10px] font-mono text-amber-500 uppercase tracking-widest block mt-0.5">
+                    {selectedReview.property}
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedReview(null)}
+                className="text-muted hover:text-foreground cursor-pointer font-mono text-xs uppercase tracking-widest border border-border-color hover:border-foreground/30 px-4 py-2 rounded-lg"
+              >
+                ✕ Close
+              </button>
+            </div>
+            
+            <p className="text-base md:text-lg leading-relaxed text-foreground/90 font-serif italic mb-6">
+              &ldquo;{selectedReview.quote}&rdquo;
+            </p>
+            
+            <div className="flex items-center justify-between mt-auto pt-4 border-t border-border-color/20">
+              <span className="text-[10px] font-mono text-muted uppercase tracking-wider">Verified Purchase</span>
+              <div className="flex gap-0.5 text-amber-550 dark:text-amber-500">
+                {Array.from({ length: selectedReview.stars }).map((_, i) => (
+                  <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
+                ))}
+              </div>
             </div>
           </div>
         </div>

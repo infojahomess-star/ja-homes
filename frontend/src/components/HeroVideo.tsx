@@ -115,7 +115,7 @@ export default function HeroVideo({
           >
             <Link
               href={cta1Link}
-              className={`bg-gold-gradient text-black font-semibold text-xs uppercase tracking-widest px-8 py-3.5 rounded-full flex items-center gap-2 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/25 ${motionVariants.ctaInteractive}`}
+              className={`bg-gold-gradient text-white font-semibold text-xs uppercase tracking-widest px-8 py-3.5 rounded-full flex items-center gap-2 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/25 ${motionVariants.ctaInteractive}`}
               id="hero-explore-projects"
             >
               {cta1Text} <ArrowRight size={14} />

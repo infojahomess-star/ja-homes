@@ -63,6 +63,17 @@
   --color-amber-800: #1e3a8a;
   --color-amber-900: #172554;
   --color-amber-950: #0f172a;
+
+  --animate-marquee: marquee 35s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-33.33%);
+    }
+  }
 }
 
 body {
@@ -219,3 +230,85 @@ html {
   mix-blend-mode: overlay;
   pointer-events: none;
 }
+
+/* Custom High-Fidelity Homepage Animations */
+
+@keyframes slow-glow-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(8%, 5%) scale(1.1);
+  }
+}
+.animate-glow-drift {
+  animation: slow-glow-drift 15s infinite ease-in-out;
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.animate-float-slow {
+  animation: float-slow 7s infinite ease-in-out;
+}
+
+.clip-vertical-reveal {
+  clip-path: inset(50% 0 50% 0);
+  transition: clip-path 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: clip-path;
+}
+.clip-vertical-reveal.active {
+  clip-path: inset(0% 0 0% 0);
+}
+
+.clip-diagonal-reveal {
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  transition: clip-path 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: clip-path;
+}
+.clip-diagonal-reveal.active {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+@keyframes dust-drift-1 {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  20%, 80% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-120px) translateX(40px) scale(1.2);
+    opacity: 0;
+  }
+}
+@keyframes dust-drift-2 {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.8);
+    opacity: 0;
+  }
+  15%, 85% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-160px) translateX(-50px) scale(0.6);
+    opacity: 0;
+  }
+}
+.animate-dust-1 {
+  animation: dust-drift-1 12s infinite linear;
+}
+.animate-dust-2 {
+  animation: dust-drift-2 16s infinite linear;
+}
+
+.will-change-transform-opacity {
+  will-change: transform, opacity;
+}
+

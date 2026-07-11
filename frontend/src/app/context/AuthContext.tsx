@@ -31,8 +31,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const savedUser = localStorage.getItem("ja-homes-user");
 
     if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      requestAnimationFrame(() => {
+        setToken(savedToken);
+        setUser(JSON.parse(savedUser));
+      });
       
       // Verify token with backend
       fetch(`${API_BASE_URL}/auth/me`, {
@@ -51,12 +53,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.warn("Backend server offline, using local credentials");
         })
         .finally(() => {
-          setLoading(false);
+          requestAnimationFrame(() => {
+            setLoading(false);
+          });
         });
     } else {
-      setLoading(false);
+      requestAnimationFrame(() => {
+        setLoading(false);
+      });
     }
   }, []);
+
+  function logout() {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem("ja-homes-token");
+    localStorage.removeItem("ja-homes-user");
+  }
 
   const login = async (email: string, password: string) => {
     try {
@@ -138,13 +151,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       return { success: false, message: "Backend is offline and invalid registration details." };
     }
-  };
-
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-    localStorage.removeItem("ja-homes-token");
-    localStorage.removeItem("ja-homes-user");
   };
 
   return (

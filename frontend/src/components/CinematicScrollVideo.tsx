@@ -79,12 +79,17 @@ export default function CinematicScrollVideo({
 
   // ── Mount: capability detection ──────────────────────────────────────────────
   useEffect(() => {
-    setIsIOS(detectIOS());
-    setPrefersReduced(
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    );
+    const frameId = requestAnimationFrame(() => {
+      setIsIOS(detectIOS());
+      setPrefersReduced(
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      );
+    });
     const t = setTimeout(() => setHasEntered(true), 80);
-    return () => clearTimeout(t);
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearTimeout(t);
+    };
   }, []);
 
   // ── Desktop GSAP scrub wiring ────────────────────────────────────────────────

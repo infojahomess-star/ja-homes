@@ -56,7 +56,7 @@ export default function PullQuote({ quote, author, role }: PullQuoteProps) {
             : "opacity-0 tracking-[0.15em]"
         }`}
       >
-        "{quote}"
+        &ldquo;{quote}&rdquo;
       </blockquote>
 
       {/* Author details fading in shortly after */}

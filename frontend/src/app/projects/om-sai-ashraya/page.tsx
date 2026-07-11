@@ -265,7 +265,7 @@ export default function OmSaiAshrayaDetail() {
               </div>
               <div className="border-l-2 border-amber-500/50 pl-4 py-1">
                 <span className="text-muted font-mono text-[10px] uppercase block tracking-wider">Access Roads</span>
-                <span className="text-foreground text-sm font-semibold font-sans">30'0" Wide Main Road</span>
+                <span className="text-foreground text-sm font-semibold font-sans">30&apos;0&quot; Wide Main Road</span>
               </div>
               <div className="border-l-2 border-amber-500/50 pl-4 py-1">
                 <span className="text-muted font-mono text-[10px] uppercase block tracking-wider">Architecture</span>

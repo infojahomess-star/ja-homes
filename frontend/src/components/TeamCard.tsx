@@ -10,6 +10,7 @@ interface TeamMemberProps {
   spec: string;
   phone?: string;
   delay?: number;
+  objectPosition?: string;
 }
 
 export default function TeamCard({
@@ -20,6 +21,7 @@ export default function TeamCard({
   spec,
   phone,
   delay = 0,
+  objectPosition,
 }: TeamMemberProps) {
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -53,7 +55,7 @@ export default function TeamCard({
   return (
     <div
       ref={cardRef}
-      className={`glass-card rounded-2xl overflow-hidden border border-border-color group aspect-[3/4] relative flex flex-col justify-end transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`glass-panel p-4 rounded-2xl border border-border-color group flex flex-col gap-4 transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isVisible
           ? "opacity-100 rotate-0 translate-y-0 scale-100"
           : "opacity-0 rotate-2 translate-y-10 scale-95"
@@ -62,36 +64,34 @@ export default function TeamCard({
         transitionDelay: `${delay}ms`,
       }}
     >
-      {/* 1. Portrait Grayscale Image */}
-      <img
-        src={image}
-        alt={name}
-        className="absolute inset-0 w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[800ms] ease-out-quad"
-      />
-
-      {/* 2. Soft Bottom Gradient Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent z-10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
-
-      {/* 3. Specs Badge */}
-      <div className="absolute top-4 left-4 z-20">
-        <span className="text-[9px] font-mono text-amber-500 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full uppercase tracking-widest">
-          {spec}
-        </span>
+      {/* 1. Portrait Image Box (fully visible, no text overlays) */}
+      <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden border border-border-color bg-foreground/[0.02]">
+        <img
+          src={image}
+          alt={name}
+          className={`w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105 ${objectPosition || "object-center"}`}
+        />
+        {/* Specs Badge */}
+        <div className="absolute top-3 left-3 z-10">
+          <span className="text-[8px] font-mono text-amber-500 bg-black/75 backdrop-blur-md border border-amber-500/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider font-semibold">
+            {spec}
+          </span>
+        </div>
       </div>
 
-      {/* 4. Sliding Card Content details */}
-      <div className="p-6 relative z-20 translate-y-6 group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+      {/* 2. Card Content details below image (fully visible) */}
+      <div className="flex flex-col gap-2 p-0.5">
         
         {/* Role & Name */}
-        <span className="text-amber-500 text-[10px] font-mono uppercase tracking-[0.25em] mb-1 block">
+        <span className="text-amber-500 text-[10px] font-mono uppercase tracking-[0.2em] font-bold">
           {role}
         </span>
-        <h3 className="text-xl font-serif text-white font-light tracking-wide mb-3">
+        <h3 className="text-lg font-serif text-foreground font-semibold tracking-wide">
           {name}
         </h3>
 
-        {/* Bio fading in on hover */}
-        <p className="text-[11px] md:text-xs text-muted/90 font-light leading-relaxed font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+        {/* Bio description */}
+        <p className="text-xs text-foreground/80 font-normal leading-relaxed font-sans">
           {bio}
         </p>
 
@@ -102,7 +102,7 @@ export default function TeamCard({
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="mt-3 inline-flex items-center gap-2 text-[10px] font-mono text-amber-400 hover:text-amber-300 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-150 hover:gap-3"
+            className="mt-1 inline-flex items-center gap-1.5 text-[10px] font-mono text-amber-500 hover:text-amber-400 font-semibold hover:gap-2 self-start transition-all duration-300"
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5 shrink-0" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -112,7 +112,6 @@ export default function TeamCard({
           </a>
         )}
       </div>
-
     </div>
   );
 }

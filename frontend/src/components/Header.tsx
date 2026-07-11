@@ -71,25 +71,26 @@ export default function Header() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-40 glass-panel transition-all duration-300 ${
-        isScrolled ? "h-14 shadow-lg backdrop-blur-md bg-background/80" : "h-20"
+      <header className={`fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-7xl px-4 ${
+        isScrolled ? "top-3 h-14" : "top-6 h-16"
       }`}>
-        <div className="max-w-7xl mx-auto h-full px-6 flex items-center justify-between">
+        <div className={`w-full h-full px-6 flex items-center justify-between transition-all duration-300 glass-panel border border-border-color shadow-lg rounded-full backdrop-blur-md ${
+          isScrolled ? "bg-background/85" : "bg-background/50"
+        }`}>
           <Link href="/" className="flex items-center transition-all duration-300">
-            <Image
-              src="https://res.cloudinary.com/pctbshnp/image/upload/v1783009909/logo_darkk_rkhfqc.png"
-              alt="JA Homes Logo"
-              width={150}
-              height={36}
-              priority
-              loading="eager"
-              className={`transition-all duration-300 w-auto object-contain ${
-                isScrolled ? "h-8" : "h-11"
-              }`}
-              style={{
-                filter: theme === "dark" ? "invert(1) brightness(1.2)" : "none",
-              }}
-            />
+            <div className={`relative transition-all duration-300 ${isScrolled ? "h-7 w-[117px]" : "h-9 w-[150px]"}`}>
+              <Image
+                src="https://res.cloudinary.com/pctbshnp/image/upload/v1783009909/logo_darkk_rkhfqc.png"
+                alt="JA Homes Logo"
+                fill
+                sizes="150px"
+                priority
+                className="object-contain"
+                style={{
+                  filter: theme === "dark" ? "invert(1) brightness(1.2)" : "none",
+                }}
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -230,8 +231,8 @@ export default function Header() {
 
         {/* Mobile Navigation Drawer */}
         {isMenuOpen && (
-          <div className={`md:hidden glass-panel border-t-0 border-x-0 w-full absolute left-0 py-6 px-6 flex flex-col gap-4 animate-fade-in-up shadow-xl transition-all duration-300 ${
-            isScrolled ? "top-14" : "top-20"
+          <div className={`md:hidden glass-panel border border-border-color rounded-2xl w-full absolute left-0 py-6 px-6 flex flex-col gap-4 animate-fade-in-up shadow-xl transition-all duration-300 ${
+            isScrolled ? "top-16" : "top-20"
           }`}>
             <Link
               href="/about"
