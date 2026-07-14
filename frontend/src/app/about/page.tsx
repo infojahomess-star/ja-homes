@@ -120,6 +120,7 @@ export default function About() {
       bio: "Debiprasad brings 8+ years of experience in real estate marketing, ensuring our bespoke architectural masterpieces reach the right visionary clientele across global markets.",
       image: "https://res.cloudinary.com/pctbshnp/image/upload/v1782974948/Debiprasad_Deo_tsg4gr.jpg",
       spec: "Marketing Director",
+      phone: "917008421963",
       objectPosition: "object-[right_20%]"
     }
   ];

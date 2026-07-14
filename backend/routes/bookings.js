@@ -1,25 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
-const path = require("path");
 const jwt = require("jsonwebtoken");
+const Booking = require("../models/Booking");
+const { sendBookingEmail } = require("../utils/mailer");
 
-const BOOKINGS_FILE = path.join(__dirname, "../data/bookings.json");
 const JWT_SECRET = process.env.JWT_SECRET || "ja_homes_secret_key_12345";
 
-// Helper to read bookings
-const readBookings = () => {
-  try {
-    const data = fs.readFileSync(BOOKINGS_FILE, "utf-8");
-    return JSON.parse(data || "[]");
-  } catch (error) {
-    return [];
-  }
-};
-
-// Helper to write bookings
-const writeBookings = (bookings) => {
-  fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(bookings, null, 2), "utf-8");
+// Helper to validate email format
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(String(email).toLowerCase());
 };
 
 // Optional token decoding middleware
@@ -41,7 +31,7 @@ const decodeTokenOptional = (req, res, next) => {
 
 // @route   POST api/bookings
 // @desc    Create a new private tour booking
-router.post("/", decodeTokenOptional, (req, res) => {
+router.post("/", decodeTokenOptional, async (req, res) => {
   try {
     const { name, email, phone, date, timeSlot, tourType, property, config } = req.body;
 
@@ -49,10 +39,21 @@ router.post("/", decodeTokenOptional, (req, res) => {
       return res.status(400).json({ message: "Please fill all required fields" });
     }
 
-    const bookings = readBookings();
-    
-    const newBooking = {
-      id: "JAH-" + Math.floor(100000 + Math.random() * 900000),
+    if (!validateEmail(email)) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
+
+    // Validate booking date (must not be in the past)
+    const bookingDateObj = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // start of today
+    if (isNaN(bookingDateObj.getTime()) || bookingDateObj < today) {
+      return res.status(400).json({ message: "Please choose a valid date in the future" });
+    }
+
+    const customId = "JAH-" + Math.floor(100000 + Math.random() * 900000);
+    const newBooking = new Booking({
+      _id: customId,
       name,
       email: email.toLowerCase(),
       phone,
@@ -61,12 +62,13 @@ router.post("/", decodeTokenOptional, (req, res) => {
       tourType: tourType || "In-Person Private Tour",
       property: property || "The Alpine Crest",
       config: config || null,
-      userId: req.user ? req.user.id : null,
-      createdAt: new Date().toISOString()
-    };
+      userId: req.user ? req.user.id : null
+    });
 
-    bookings.unshift(newBooking);
-    writeBookings(bookings);
+    await newBooking.save();
+
+    // Dispatch email confirmation asynchronously
+    sendBookingEmail(newBooking);
 
     res.status(201).json(newBooking);
   } catch (error) {
@@ -77,22 +79,23 @@ router.post("/", decodeTokenOptional, (req, res) => {
 
 // @route   GET api/bookings
 // @desc    Get bookings for a specific user (by token, or by email query parameter)
-router.get("/", decodeTokenOptional, (req, res) => {
+router.get("/", decodeTokenOptional, async (req, res) => {
   try {
-    const bookings = readBookings();
-    
     // If authenticated, return by userId or email
     if (req.user) {
-      const filtered = bookings.filter(
-        (b) => b.userId === req.user.id || b.email.toLowerCase() === req.user.email.toLowerCase()
-      );
+      const filtered = await Booking.find({
+        $or: [
+          { userId: req.user.id },
+          { email: req.user.email.toLowerCase() }
+        ]
+      }).sort({ createdAt: -1 });
       return res.json(filtered);
     }
     
     // If not authenticated, support email query parameter
     const queryEmail = req.query.email;
     if (queryEmail) {
-      const filtered = bookings.filter((b) => b.email.toLowerCase() === queryEmail.toLowerCase());
+      const filtered = await Booking.find({ email: queryEmail.toLowerCase() }).sort({ createdAt: -1 });
       return res.json(filtered);
     }
     
@@ -106,19 +109,40 @@ router.get("/", decodeTokenOptional, (req, res) => {
 
 // @route   DELETE api/bookings/:id
 // @desc    Cancel a booking
-router.delete("/:id", (req, res) => {
+router.delete("/:id", decodeTokenOptional, async (req, res) => {
   try {
     const { id } = req.params;
-    const bookings = readBookings();
+    const booking = await Booking.findById(id);
     
-    const index = bookings.findIndex((b) => b.id === id);
-    if (index === -1) {
+    if (!booking) {
       return res.status(404).json({ message: "Booking not found" });
     }
     
-    bookings.splice(index, 1);
-    writeBookings(bookings);
+    // Authorization checks:
+    // 1. Admins can delete any booking
+    const isAdmin = req.user && req.user.role === "admin";
+
+    if (!isAdmin) {
+      // 2. If booking belongs to registered user, verify token matches owner
+      if (booking.userId) {
+        if (!req.user || req.user.id !== booking.userId) {
+          return res.status(403).json({ message: "You are not authorized to cancel this booking" });
+        }
+      } else {
+        // 3. For guest bookings:
+        // - If logged in as another registered user, block deletion
+        if (req.user && req.user.email.toLowerCase() !== booking.email.toLowerCase()) {
+          return res.status(403).json({ message: "You are not authorized to cancel this booking" });
+        }
+        // - If an email query param is sent, ensure it matches the booking email
+        const queryEmail = req.query.email;
+        if (queryEmail && queryEmail.toLowerCase() !== booking.email.toLowerCase()) {
+          return res.status(403).json({ message: "You are not authorized to cancel this booking" });
+        }
+      }
+    }
     
+    await Booking.deleteOne({ _id: id });
     res.json({ message: "Booking successfully cancelled", id });
   } catch (error) {
     console.error("Cancel booking error:", error);
@@ -127,3 +151,5 @@ router.delete("/:id", (req, res) => {
 });
 
 module.exports = router;
+
+

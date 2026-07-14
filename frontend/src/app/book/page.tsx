@@ -224,8 +224,13 @@ function BookingPageContent() {
 
   const handleDeleteBooking = async (id: string) => {
     try {
+      const headers: HeadersInit = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
       const response = await fetch(`${apiBaseUrl}/bookings/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers
       });
 
       if (response.ok) {
@@ -462,8 +467,7 @@ function BookingPageContent() {
                   className="w-full bg-foreground/[0.02] dark:bg-white/[0.01] border border-foreground/10 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 rounded-xl px-4 py-3.5 text-sm text-foreground transition-all duration-300 outline-none cursor-pointer"
                 >
                   <option value="The Alpine Crest" className="bg-background text-foreground">The Alpine Crest — Aspen ($14.8M)</option>
-                  <option value="The Azure Cove" className="bg-background text-foreground">The Azure Cove — Malibu ($18.5M)</option>
-                  <option value="The Zenith Penthouse" className="bg-background text-foreground">The Zenith Penthouse — Manhattan ($12.2M)</option>
+                  <option value="Om Sai Ashraya" className="bg-background text-foreground">Om Sai Ashraya — Phulnakhara (₹1.20 Cr)</option>
                   <option value="Custom Configured Estate" className="bg-background text-foreground">Custom Configured Estate (From co-design dashboard)</option>
                 </select>
               </div>

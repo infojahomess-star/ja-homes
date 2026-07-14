@@ -1,48 +1,42 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
-const path = require("path");
+const Contact = require("../models/Contact");
+const { sendContactEmail } = require("../utils/mailer");
 
-const CONTACT_FILE = path.join(__dirname, "../data/contact.json");
-
-// Helper to read contacts
-const readContacts = () => {
-  try {
-    const data = fs.readFileSync(CONTACT_FILE, "utf-8");
-    return JSON.parse(data || "[]");
-  } catch (error) {
-    return [];
-  }
-};
-
-// Helper to write contacts
-const writeContacts = (contacts) => {
-  fs.writeFileSync(CONTACT_FILE, JSON.stringify(contacts, null, 2), "utf-8");
+// Helper to validate email format
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(String(email).toLowerCase());
 };
 
 // @route   POST api/contact
 // @desc    Submit a contact inquiry
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const { name, email, message, interest } = req.body;
+    const { name, email, message, interest, phone } = req.body;
 
     if (!name || !email || !message) {
       return res.status(400).json({ message: "Please fill all required fields" });
     }
 
-    const contacts = readContacts();
+    if (!validateEmail(email)) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
 
-    const newContact = {
-      id: "CON-" + Math.floor(100000 + Math.random() * 900000),
+    const customId = "CON-" + Math.floor(100000 + Math.random() * 900000);
+    const newContact = new Contact({
+      _id: customId,
       name,
       email: email.toLowerCase(),
+      phone: phone || "",
       message,
-      interest: interest || "General Inquiry",
-      createdAt: new Date().toISOString()
-    };
+      interest: interest || "General Inquiry"
+    });
 
-    contacts.push(newContact);
-    writeContacts(contacts);
+    await newContact.save();
+
+    // Dispatch email notification asynchronously
+    sendContactEmail(newContact);
 
     res.status(201).json({
       message: "Your message has been securely submitted to our concierge.",
@@ -55,3 +49,5 @@ router.post("/", (req, res) => {
 });
 
 module.exports = router;
+
+

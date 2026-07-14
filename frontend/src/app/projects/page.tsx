@@ -69,32 +69,6 @@ function ProjectsContent() {
       progress: 15,
       status: "Completion in 1.5 Years",
       description: "An upcoming luxury residential enclave in Phulnakhara offering bespoke architectural elegance, vast open spaces, and premium lifestyle amenities designed for absolute comfort."
-    },
-    {
-      id: "azure-cove",
-      title: "The Azure Cove",
-      price: "$18,500,000",
-      beds: 6,
-      baths: 7,
-      sqft: 9500,
-      location: "Ongoing",
-      image: "/azure_cove.png",
-      tag: "Coastal Oceanfront",
-      progress: 85,
-      status: "Envelope Glazing & Finishes"
-    },
-    {
-      id: "zenith-penthouse",
-      title: "The Zenith Penthouse",
-      price: "$12,200,000",
-      beds: 4,
-      baths: 4.5,
-      sqft: 6100,
-      location: "Upcoming",
-      image: "/zenith_penthouse.png",
-      tag: "City Skyline",
-      progress: 60,
-      status: "Interior Framing & HVAC"
     }
   ];
 

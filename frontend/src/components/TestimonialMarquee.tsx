@@ -24,14 +24,14 @@ const testimonials: Testimonial[] = [
     quote: "From the initial consultation to the final handover, the team demonstrated unmatched expertise. The custom eco-friendly integrations and premium finishes are truly breathtaking.",
     client: "Rohan & Priya",
     initials: "RP",
-    property: "Sapphire Heights",
+    property: "Om Sai Ashraya",
     stars: 5
   },
   {
     quote: "We were looking for a residence that perfectly balanced modern architecture with natural landscapes. JA Homes delivered a masterpiece that feels both luxurious and organically connected to the environment.",
     client: "Aman Gupta",
     initials: "AG",
-    property: "Zenith Penthouse",
+    property: "Om Sai Ashraya",
     stars: 5
   },
   {
@@ -45,7 +45,7 @@ const testimonials: Testimonial[] = [
     quote: "JA Homes managed our bespoke property acquisition with absolute discretion and efficiency. The biophilic design elements they incorporated have transformed our daily living experience.",
     client: "Kavita S.",
     initials: "KS",
-    property: "Azure Cove Mansion",
+    property: "Om Sai Ashraya",
     stars: 5
   }
 ];

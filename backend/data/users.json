@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "usr_105581",
+    "name": "Test User",
+    "email": "test_617026@test.com",
+    "password": "$2a$10$cDQUdeqnmAnArSrw8bTJGuY4PvwF/zHbFsjKoUDUjCBDOJ2v7yrTa",
+    "role": "user",
+    "createdAt": "2026-07-13T05:12:05.640Z"
+  },
+  {
+    "id": "usr_151758",
+    "name": "Other User",
+    "email": "test_879059@test.com",
+    "password": "$2a$10$7BncFR4uio1PJ/1QlTMZO.MGHU5Y2LCbZgrXD7Nk2tjg3BWW1tsO2",
+    "role": "user",
+    "createdAt": "2026-07-13T05:12:05.808Z"
+  },
+  {
+    "id": "usr_606907",
+    "name": "Admin Concierge",
+    "email": "admin@jahomes.com",
+    "password": "$2a$10$eQt3ml72nzwMH6HDkFex6OslhW97t4fmCUkpdfupk4Axev7ZIj76i",
+    "role": "admin",
+    "createdAt": "2026-07-13T05:12:05.884Z"
+  }
+]

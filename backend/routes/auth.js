@@ -1,26 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
-const path = require("path");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-const USERS_FILE = path.join(__dirname, "../data/users.json");
 const JWT_SECRET = process.env.JWT_SECRET || "ja_homes_secret_key_12345";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@jahomes.com";
 
-// Helper to read users
-const readUsers = () => {
-  try {
-    const data = fs.readFileSync(USERS_FILE, "utf-8");
-    return JSON.parse(data || "[]");
-  } catch (error) {
-    return [];
-  }
-};
-
-// Helper to write users
-const writeUsers = (users) => {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf-8");
+// Helper to validate email format
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(String(email).toLowerCase());
 };
 
 // Middleware to verify JWT token
@@ -47,10 +37,16 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "Please enter all fields" });
     }
 
-    const users = readUsers();
+    if (!validateEmail(email)) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters" });
+    }
 
     // Check if user exists
-    const userExists = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    const userExists = await User.findOne({ email: email.toLowerCase() });
     if (userExists) {
       return res.status(400).json({ message: "User already exists with this email" });
     }
@@ -59,28 +55,34 @@ router.post("/signup", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = {
-      id: "usr_" + Math.floor(100000 + Math.random() * 900000),
+    // Determine user role based on email configuration
+    const role = email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? "admin" : "user";
+    const customId = "usr_" + Math.floor(100000 + Math.random() * 900000);
+
+    const newUser = new User({
+      _id: customId,
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
-      createdAt: new Date().toISOString()
-    };
-
-    users.push(newUser);
-    writeUsers(users);
-
-    // Create JWT Token
-    const token = jwt.sign({ id: newUser.id, email: newUser.email, name: newUser.name }, JWT_SECRET, {
-      expiresIn: "7d"
+      role
     });
+
+    await newUser.save();
+
+    // Create JWT Token including role
+    const token = jwt.sign(
+      { id: newUser.id, email: newUser.email, name: newUser.name, role: newUser.role },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
     res.status(201).json({
       token,
       user: {
         id: newUser.id,
         name: newUser.name,
-        email: newUser.email
+        email: newUser.email,
+        role: newUser.role
       }
     });
   } catch (error) {
@@ -99,10 +101,12 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Please enter all fields" });
     }
 
-    const users = readUsers();
+    if (!validateEmail(email)) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
 
     // Check if user exists
-    const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -113,17 +117,20 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Create JWT Token
-    const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, JWT_SECRET, {
-      expiresIn: "7d"
-    });
+    // Create JWT Token including role
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.name, role: user.role || "user" },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
     res.json({
       token,
       user: {
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role || "user"
       }
     });
   } catch (error) {
@@ -140,3 +147,5 @@ router.get("/me", authenticateToken, (req, res) => {
 
 module.exports = router;
 module.exports.authenticateToken = authenticateToken; // Export middleware for other routes
+
+

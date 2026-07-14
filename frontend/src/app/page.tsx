@@ -265,7 +265,7 @@ export default function Home() {
                 id="hero-explore-projects"
               >
                 <span>Explore Projects</span>
-                <div className="w-8 h-8 rounded-full bg-black text-amber-500 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                <div className="w-8 h-8 rounded-full bg-white text-[#1e3a8a] flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                   <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5" />
                 </div>
               </Link>
@@ -301,7 +301,7 @@ export default function Home() {
               onPointerUp={handlePointerUpImg1}
               onPointerCancel={handlePointerUpImg1}
             >
-              <div className="w-full h-full rounded-3xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.8)] border border-white/10 transform rotate-[-4deg] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:rotate-[-2deg] hover:scale-[1.02] group animate-float-slow">
+              <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.8)] border border-white/10 transform rotate-[-4deg] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:rotate-[-2deg] hover:scale-[1.02] group animate-float-slow">
                 {/* Background Image */}
                 <Image
                   src="https://res.cloudinary.com/pctbshnp/image/upload/v1783683301/home_page_image_1_vxdl4v.jpg"
@@ -809,7 +809,7 @@ export default function Home() {
                 >
                   <Image
                     src="/zenith_penthouse.png"
-                    alt="Modern Zenith Penthouse interior looking over skyline"
+                    alt="Modern luxury estate interior looking over skyline"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
