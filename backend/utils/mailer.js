@@ -219,25 +219,27 @@ const sendContactEmail = async (contact) => {
   );
 
   try {
-    // Send email to client
-    await resend.emails.send({
+    // 1. Confirmation to the client
+    const clientResult = await resend.emails.send({
       from: EMAIL_FROM,
       to: email,
       subject: `We have received your inquiry [Ref: ${_id}]`,
       html: clientHtml,
     });
+    console.log(`[MAILER] Contact client email → to: ${email} | from: ${EMAIL_FROM} | resend_id: ${clientResult?.data?.id || clientResult?.id || "no-id"}`);
 
-    // Send copy to admin
-    await resend.emails.send({
+    // 2. Admin notification
+    const adminResult = await resend.emails.send({
       from: EMAIL_FROM,
       to: ADMIN_EMAIL,
       subject: `New Inquiry Received: ${interest} [Ref: ${_id}]`,
       html: adminHtml,
     });
+    console.log(`[MAILER] Contact admin email → to: ${ADMIN_EMAIL} | from: ${EMAIL_FROM} | resend_id: ${adminResult?.data?.id || adminResult?.id || "no-id"}`);
 
-    console.log(`Contact emails successfully sent for inquiry ${_id}`);
   } catch (error) {
-    console.error("Error sending contact email via Resend:", error);
+    console.error("[MAILER] ❌ Error sending contact email via Resend:", error?.message || error);
+    console.error("[MAILER] Check Resend dashboard → Logs for details. EMAIL_FROM:", EMAIL_FROM, "ADMIN_EMAIL:", ADMIN_EMAIL);
   }
 };
 
@@ -338,25 +340,27 @@ const sendBookingEmail = async (booking) => {
   );
 
   try {
-    // Send email to client
-    await resend.emails.send({
+    // 1. Confirmation to the client
+    const clientResult = await resend.emails.send({
       from: EMAIL_FROM,
       to: email,
       subject: `Your Private Tour Confirmation [ID: ${_id}]`,
       html: clientHtml,
     });
+    console.log(`[MAILER] Booking client email → to: ${email} | from: ${EMAIL_FROM} | resend_id: ${clientResult?.data?.id || clientResult?.id || "no-id"}`);
 
-    // Send copy to admin
-    await resend.emails.send({
+    // 2. Admin notification
+    const adminResult = await resend.emails.send({
       from: EMAIL_FROM,
       to: ADMIN_EMAIL,
       subject: `New Private Tour Booked: ${property} [ID: ${_id}]`,
       html: adminHtml,
     });
+    console.log(`[MAILER] Booking admin email → to: ${ADMIN_EMAIL} | from: ${EMAIL_FROM} | resend_id: ${adminResult?.data?.id || adminResult?.id || "no-id"}`);
 
-    console.log(`Booking emails successfully sent for reservation ${_id}`);
   } catch (error) {
-    console.error("Error sending booking email via Resend:", error);
+    console.error("[MAILER] ❌ Error sending booking email via Resend:", error?.message || error);
+    console.error("[MAILER] Check Resend dashboard → Logs for details. EMAIL_FROM:", EMAIL_FROM, "ADMIN_EMAIL:", ADMIN_EMAIL);
   }
 };
 
