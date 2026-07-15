@@ -304,7 +304,7 @@ export default function Home() {
               <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.8)] border border-white/10 transform rotate-[-4deg] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] hover:rotate-[-2deg] hover:scale-[1.02] group animate-float-slow">
                 {/* Background Image */}
                 <Image
-                  src="https://res.cloudinary.com/pctbshnp/image/upload/v1783683301/home_page_image_1_vxdl4v.jpg"
+                  src="/hero_final_frame.jpg"
                   alt="Luxury sustainable residence exterior at dusk"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -358,7 +358,7 @@ export default function Home() {
               >
                 <div className="relative w-full h-full rounded-xl overflow-hidden">
                   <Image
-                    src="https://res.cloudinary.com/pctbshnp/image/upload/v1783683301/home_page_image_2_fuqtky.jpg"
+                    src="/villa_interior.jpg"
                     alt="Minimalist modern luxury interior lounge room"
                     fill
                     sizes="(max-width: 1024px) 50vw, 30vw"
@@ -808,11 +808,11 @@ export default function Home() {
                   className="relative aspect-[16/10] w-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl group flex flex-col justify-end p-8 md:p-12 hover:border-amber-500/30 hover:shadow-amber-500/[0.05] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
                 >
                   <Image
-                    src="/zenith_penthouse.png"
+                    src="/zenith_penthouse.jpg"
                     alt="Modern luxury estate interior looking over skyline"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
+                    className="object-cover transition-transform duration-800 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 noise-overlay z-10" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10 z-10" />
@@ -844,7 +844,7 @@ export default function Home() {
           {/* Background Image with Pool and Luxury House */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&q=80"
+              src="/azure_cove.jpg"
               alt="Luxury modern villa architecture with swimming pool"
               fill
               className="object-cover"

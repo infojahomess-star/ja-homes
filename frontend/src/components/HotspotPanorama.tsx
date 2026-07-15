@@ -257,7 +257,7 @@ export default function HotspotPanorama() {
                 >
                   {/* Slow auto-panning Ken Burns Image */}
                   <Image
-                    src="/villa_interior.png"
+                    src="/villa_interior.jpg"
                     alt="Luxury Villa Living Room Interior"
                     fill
                     sizes="(max-width: 1024px) 100vw, 60vw"

@@ -41,7 +41,9 @@ interface FloorPlan {
   facing: string;
   road: string;
   specs: FloorPlanSpec[];
-  layoutGrid: {
+  image: string;
+  description: string;
+  layoutGrid?: {
     name: string;
     colSpan: string;
     rowSpan: string;
@@ -51,7 +53,8 @@ interface FloorPlan {
 }
 
 export default function OmSaiAshrayaDetail() {
-  const [activePlanTab, setActivePlanTab] = useState("ground-east");
+  const [activePlanTab, setActivePlanTab] = useState("ground-914");
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   const contactInfo = {
     developer: "Omm Sai Villa Phase-2",
@@ -94,95 +97,52 @@ export default function OmSaiAshrayaDetail() {
 
   const floorPlans: FloorPlan[] = [
     {
-      id: "ground-east",
-      name: "Ground Floor Plan",
-      area: "800 SQFT",
-      facing: "East Facing",
-      road: "30'0\" Wide Road",
-      specs: [
-        { room: "Portico / Parking", dimensions: "17'0\" x 14'10\"" },
-        { room: "Drawing / Dining Room", dimensions: "13'4\" x 12'10\"" },
-        { room: "Bedroom", dimensions: "13'4\" x 10'0\"" },
-        { room: "Toilet", dimensions: "5'0\" x 8'6\"" },
-        { room: "Staircase", dimensions: "7'10\" x 9'4\"" }
-      ],
-      layoutGrid: [
-        { name: "Portico / Parking", colSpan: "col-span-2", rowSpan: "row-span-2", bg: "bg-amber-500/10 border-amber-500/30", dimensions: "17'0\" x 14'10\"" },
-        { name: "Drawing / Dining", colSpan: "col-span-2", rowSpan: "row-span-2", bg: "bg-blue-500/10 border-blue-500/30", dimensions: "13'4\" x 12'10\"" },
-        { name: "Bedroom", colSpan: "col-span-2", rowSpan: "row-span-1", bg: "bg-emerald-500/10 border-emerald-500/30", dimensions: "13'4\" x 10'0\"" },
-        { name: "Toilet", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-rose-500/10 border-rose-500/30", dimensions: "5'0\" x 8'6\"" },
-        { name: "Staircase", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-indigo-500/10 border-indigo-500/30", dimensions: "7'10\" x 9'4\"" }
-      ]
-    },
-    {
-      id: "first-east",
-      name: "First Floor Plan",
+      id: "ground-914",
+      name: "Ground Floor Plan (914 SQFT)",
       area: "914 SQFT",
       facing: "East Facing",
-      road: "N/A",
-      specs: [
-        { room: "Drawing / Dining", dimensions: "10'8\" x 18'3\"" },
-        { room: "Bedroom 1", dimensions: "11'0\" x 10'6\"" },
-        { room: "Master Bedroom", dimensions: "11'0\" x 12'8\"" },
-        { room: "Toilet 1", dimensions: "10'3\" x 4'0\"" },
-        { room: "Toilet 2 (Master)", dimensions: "9'0\" x 4'3\"" },
-        { room: "Kitchen", dimensions: "7'10\" x 9'8\"" },
-        { room: "Puja Room", dimensions: "7'10\" x 3'6\"" },
-        { room: "Balcony", dimensions: "10'8\" x 4'0\"" },
-        { room: "Staircase", dimensions: "7'10\" x 12'10\"" }
-      ],
-      layoutGrid: [
-        { name: "Drawing / Dining", colSpan: "col-span-2", rowSpan: "row-span-2", bg: "bg-blue-500/10 border-blue-500/30", dimensions: "10'8\" x 18'3\"" },
-        { name: "Master Bedroom", colSpan: "col-span-2", rowSpan: "row-span-2", bg: "bg-emerald-500/10 border-emerald-500/30", dimensions: "11'0\" x 12'8\"" },
-        { name: "Bedroom 1", colSpan: "col-span-1", rowSpan: "row-span-2", bg: "bg-emerald-500/10 border-emerald-500/30", dimensions: "11'0\" x 10'6\"" },
-        { name: "Kitchen", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-amber-500/10 border-amber-500/30", dimensions: "7'10\" x 9'8\"" },
-        { name: "Balcony", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-indigo-500/10 border-indigo-500/30", dimensions: "10'8\" x 4'0\"" },
-        { name: "Toilet 1", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-rose-500/10 border-rose-500/30", dimensions: "10'3\" x 4'0\"" },
-        { name: "Toilet 2", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-rose-500/10 border-rose-500/30", dimensions: "9'0\" x 4'3\"" },
-        { name: "Puja Room", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-yellow-500/10 border-yellow-500/30", dimensions: "7'10\" x 3'6\"" }
-      ]
-    },
-    {
-      id: "second-east",
-      name: "Second Floor Plan",
-      area: "650 SQFT",
-      facing: "East Facing",
-      road: "N/A",
-      specs: [
-        { room: "Family Lounge", dimensions: "10'3\" x 12'10\"" },
-        { room: "Bedroom 1", dimensions: "11'0\" x 10'6\"" },
-        { room: "Bedroom 2", dimensions: "11'0\" x 12'8\"" },
-        { room: "Toilet", dimensions: "7'2\" x 4'3\"" },
-        { room: "Open Terrace", dimensions: "19'0\" x 13'0\"" },
-        { room: "Staircase", dimensions: "7'10\" x 12'10\"" }
-      ],
-      layoutGrid: [
-        { name: "Open Terrace", colSpan: "col-span-3", rowSpan: "row-span-2", bg: "bg-teal-500/10 border-teal-500/30", dimensions: "19'0\" x 13'0\"" },
-        { name: "Bedroom 2", colSpan: "col-span-2", rowSpan: "row-span-2", bg: "bg-emerald-500/10 border-emerald-500/30", dimensions: "11'0\" x 12'8\"" },
-        { name: "Family Lounge", colSpan: "col-span-2", rowSpan: "row-span-1", bg: "bg-blue-500/10 border-blue-500/30", dimensions: "10'3\" x 12'10\"" },
-        { name: "Bedroom 1", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-emerald-500/10 border-emerald-500/30", dimensions: "11'0\" x 10'6\"" },
-        { name: "Toilet", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-rose-500/10 border-rose-500/30", dimensions: "7'2\" x 4'3\"" }
-      ]
-    },
-    {
-      id: "ground-south",
-      name: "Ground Floor (South Facing)",
-      area: "800 SQFT",
-      facing: "South Facing (S-W)",
       road: "30'0\" Wide Road",
+      image: "/projects/om-sai-ashraya/ground-floor-914.jpg",
+      description: "This layout features a massive Portico (17'0\" x 14'10\") that accommodates two full-sized vehicles side-by-side. The entrance is Vastu-aligned facing East, flowing directly into a spacious Drawing/Dining room (13'4\" x 12'10\"). The ground-floor bedroom (13'4\" x 10'0\") is tucked away in the back for ultimate privacy, adjacent to a dedicated deck and green lawn area.",
       specs: [
-        { room: "Parking / Portico", dimensions: "16'0\" x 13'9\"" },
+        { room: "Portico / Parking (Double Car)", dimensions: "17'0\" x 14'10\"" },
+        { room: "Drawing / Dining Room", dimensions: "13'4\" x 12'10\"" },
+        { room: "Bedroom with deck access", dimensions: "13'4\" x 10'0\"" },
+        { room: "Toilet", dimensions: "5'0\" x 8'6\"" },
+        { room: "Staircase", dimensions: "7'10\" x 9'4\"" }
+      ]
+    },
+    {
+      id: "ground-920",
+      name: "Ground Floor Plan (920 SQFT)",
+      area: "920 SQFT",
+      facing: "North-East Facing",
+      road: "30'0\" Wide Road",
+      image: "/projects/om-sai-ashraya/ground-floor-920.jpg",
+      description: "A wider ground-floor layout offering a generous 16'0\" x 13'9\" double parking bay. The interior flows from a front-facing Drawing/Dining hall (14'9\" x 10'0\") to an expansive ground floor Bed Room (15'2\" x 10'0\"), perfect for elders or guests, with cross-ventilation and a large 9'0\" x 4'3\" bathroom.",
+      specs: [
+        { room: "Parking / Portico (Double Car)", dimensions: "16'0\" x 13'9\"" },
         { room: "Drawing / Dining Room", dimensions: "14'9\" x 10'0\"" },
-        { room: "Bedroom", dimensions: "15'2\" x 10'0\"" },
+        { room: "Bed Room (Large)", dimensions: "15'2\" x 10'0\"" },
+        { room: "Toilet (Spacious)", dimensions: "9'0\" x 4'3\"" },
+        { room: "Staircase", dimensions: "14'4\" x 7'10\"" }
+      ]
+    },
+    {
+      id: "second-920",
+      name: "Second Floor Plan (920 SQFT)",
+      area: "920 SQFT",
+      facing: "North-East Facing",
+      road: "N/A",
+      image: "/projects/om-sai-ashraya/second-floor-920.jpg",
+      description: "Designed for premium leisure, the second floor features a vast Bed Room (14'9\" x 12'0\") with extensive wardrobe space, a dedicated peaceful Puja Room (10'0\" x 4'8\"), a cozy Living Hall (15'2\" x 10'0\"), and an open Kitchenette. The highlight is the gorgeous 15'2\" x 11'0\" Open Terrace with a Pergola, offering a perfect outdoor lounge, accessible via both main stairs and a spiral M.S. Stair.",
+      specs: [
+        { room: "Bed Room (Master size)", dimensions: "14'9\" x 12'0\"" },
+        { room: "Living Hall / Family Lounge", dimensions: "15'2\" x 10'0\"" },
+        { room: "Puja Room (Dedicated)", dimensions: "10'0\" x 4'8\"" },
+        { room: "Open Terrace / Pergola", dimensions: "15'2\" x 11'0\"" },
         { room: "Toilet", dimensions: "9'0\" x 4'3\"" },
         { room: "Staircase", dimensions: "14'4\" x 7'10\"" }
-      ],
-      layoutGrid: [
-        { name: "Parking / Portico", colSpan: "col-span-2", rowSpan: "row-span-2", bg: "bg-amber-500/10 border-amber-500/30", dimensions: "16'0\" x 13'9\"" },
-        { name: "Bedroom", colSpan: "col-span-2", rowSpan: "row-span-2", bg: "bg-emerald-500/10 border-emerald-500/30", dimensions: "15'2\" x 10'0\"" },
-        { name: "Drawing / Dining", colSpan: "col-span-2", rowSpan: "row-span-1", bg: "bg-blue-500/10 border-blue-500/30", dimensions: "14'9\" x 10'0\"" },
-        { name: "Staircase", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-indigo-500/10 border-indigo-500/30", dimensions: "14'4\" x 7'10\"" },
-        { name: "Toilet", colSpan: "col-span-1", rowSpan: "row-span-1", bg: "bg-rose-500/10 border-rose-500/30", dimensions: "9'0\" x 4'3\"" }
       ]
     }
   ];
@@ -357,10 +317,10 @@ export default function OmSaiAshrayaDetail() {
               Architectural Schematics
             </span>
             <h2 className="text-3xl md:text-4xl font-serif text-foreground tracking-wide font-light">
-              Interactive Floor Plans
+              Premium 3D Floor Plans
             </h2>
             <p className="text-muted text-sm leading-relaxed font-light font-sans mt-3">
-              Explore the G+2 structure dimensions. Select a plan to view its built-up area, room specifications, and orientation.
+              Explore the detailed spatial layout renderings of Omm Sai Villa. Select a layout tab to view the high-resolution 3D blueprint, dimensions, and spatial configuration.
             </p>
           </ScrollReveal>
 
@@ -376,7 +336,7 @@ export default function OmSaiAshrayaDetail() {
                     : "border-transparent text-muted hover:text-foreground hover:border-foreground/30"
                 }`}
               >
-                {plan.name} ({plan.area})
+                {plan.name}
               </button>
             ))}
           </ScrollReveal>
@@ -384,10 +344,10 @@ export default function OmSaiAshrayaDetail() {
           {/* Current Floor Plan Visualizer */}
           <ScrollReveal className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch" delay={100}>
             
-            {/* Specs list (5 cols) */}
-            <div className="lg:col-span-4 flex flex-col justify-between glass-panel p-6 rounded-2xl border border-border-color">
-              <div>
-                <div className="mb-6">
+            {/* Specs & Layout Description list (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col justify-between glass-panel p-6 rounded-2xl border border-border-color">
+              <div className="flex flex-col gap-6">
+                <div>
                   <span className="text-[9px] font-mono text-amber-500 uppercase tracking-widest block mb-1">
                     Dimensions Summary
                   </span>
@@ -403,59 +363,78 @@ export default function OmSaiAshrayaDetail() {
                   )}
                 </div>
 
-                <div className="flex flex-col gap-3 font-mono text-xs">
-                  {currentPlan.specs.map((spec, i) => (
-                    <div key={i} className="flex justify-between items-center py-2 border-b border-border-color last:border-0 text-muted">
-                      <span className="flex items-center gap-2 text-foreground font-light">
-                        <Check size={12} className="text-amber-500" />
-                        {spec.room}
-                      </span>
-                      <span>{spec.dimensions}</span>
-                    </div>
-                  ))}
+                <div className="border-t border-border-color/50 pt-4">
+                  <span className="text-[9px] font-mono text-amber-500 uppercase tracking-widest block mb-2">
+                    Spatial Flow & Design
+                  </span>
+                  <p className="text-muted text-xs leading-relaxed font-sans font-light">
+                    {currentPlan.description}
+                  </p>
+                </div>
+
+                <div className="border-t border-border-color/50 pt-4">
+                  <span className="text-[9px] font-mono text-amber-500 uppercase tracking-widest block mb-3">
+                    Detailed Specifications
+                  </span>
+                  <div className="flex flex-col gap-2.5 font-mono text-xs">
+                    {currentPlan.specs.map((spec, i) => (
+                      <div key={i} className="flex justify-between items-center py-1.5 border-b border-border-color/30 last:border-0 text-muted">
+                        <span className="flex items-center gap-2 text-foreground font-light">
+                          <Check size={12} className="text-amber-500" />
+                          {spec.room}
+                        </span>
+                        <span>{spec.dimensions}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-border-color">
+              <div className="mt-8 pt-4 border-t border-border-color/50">
                 <Link
                   href={`/book?property=Omm%20Sai%20Villa%20-${encodeURIComponent(currentPlan.name)}`}
-                  className="w-full text-center bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold uppercase tracking-wider py-3 rounded-xl border border-border-color hover:border-amber-500/30 text-foreground transition-all cursor-pointer block"
+                  className="w-full text-center bg-foreground/5 hover:bg-foreground/10 text-xs font-semibold uppercase tracking-wider py-3.5 rounded-xl border border-border-color hover:border-amber-500/30 text-foreground transition-all cursor-pointer block"
                 >
                   Book Private Site Visit
                 </Link>
               </div>
             </div>
 
-            {/* Virtual Blueprint Grid (8 cols) */}
-            <div className="lg:col-span-8 flex flex-col justify-center glass-panel p-8 rounded-2xl border border-border-color min-h-[350px] relative overflow-hidden bg-foreground/[0.01]">
-              <div className="absolute inset-0 noise-overlay z-10" />
+            {/* 3D Floor Plan Rendering Viewport (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col justify-center glass-panel p-4 rounded-2xl border border-border-color relative overflow-hidden bg-foreground/[0.01] group">
+              <div className="absolute inset-0 noise-overlay z-10 pointer-events-none" />
               
               {/* Compass Indicator */}
-              <div className="absolute top-4 right-4 z-20 flex flex-col items-center gap-1 font-mono text-[9px] text-muted">
-                <Compass size={22} className="text-amber-500 animate-pulse" />
-                <span className="uppercase tracking-widest">{currentPlan.facing}</span>
+              <div className="absolute top-4 right-4 z-20 flex flex-col items-center gap-1 font-mono text-[9px] text-muted bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-border-color/50">
+                <Compass size={18} className="text-amber-500 animate-pulse" />
+                <span className="uppercase tracking-widest font-semibold">{currentPlan.facing}</span>
               </div>
 
-              {/* Title inside grid */}
-              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted/60 mb-6 block z-20">
-                Visual Spatial Layout Blueprint (Not to Exact Scale)
+              {/* Title inside viewport */}
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted/60 mb-4 ml-2 block z-20">
+                High-Fidelity 3D Floor Plan Rendering
               </span>
 
-              {/* Blueprint Simulation */}
-              <div className="grid grid-cols-4 gap-3 h-[300px] z-20">
-                {currentPlan.layoutGrid.map((cell, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex flex-col items-center justify-center text-center p-4 border rounded-xl transition-all duration-300 hover:scale-102 hover:bg-amber-500/15 ${cell.colSpan} ${cell.rowSpan} ${cell.bg}`}
-                  >
-                    <span className="font-serif text-foreground font-light text-sm tracking-wide leading-tight">
-                      {cell.name}
-                    </span>
-                    <span className="font-mono text-muted text-[10px] mt-1.5 opacity-80">
-                      {cell.dimensions}
-                    </span>
+              {/* Image Viewport Container */}
+              <div 
+                onClick={() => setIsLightboxOpen(true)}
+                className="relative w-full h-[400px] rounded-xl overflow-hidden cursor-zoom-in z-20 border border-border-color/50 transition-all duration-500 group-hover:border-amber-500/30"
+              >
+                <Image
+                  src={currentPlan.image}
+                  alt={currentPlan.name}
+                  fill
+                  className="object-contain p-2 transition-transform duration-750 group-hover:scale-103"
+                  sizes="(max-w-7xl) 100vw, 800px"
+                  priority
+                />
+                
+                {/* Hover overlay hint */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                  <div className="bg-background/80 backdrop-blur-md px-4 py-2.5 rounded-full border border-amber-500/30 text-amber-500 text-xs font-mono font-semibold uppercase tracking-wider flex items-center gap-2 shadow-lg scale-90 group-hover:scale-100 transition-transform duration-300">
+                    <Maximize size={14} /> Click to View HD Layout
                   </div>
-                ))}
+                </div>
               </div>
             </div>
           </ScrollReveal>
@@ -560,6 +539,51 @@ export default function OmSaiAshrayaDetail() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Lightbox / Modal for HD Floor Plan */}
+      {isLightboxOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 transition-all duration-300"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          <div className="absolute top-4 right-4 z-50 flex gap-4">
+            <button 
+              onClick={() => setIsLightboxOpen(false)}
+              className="bg-foreground/5 hover:bg-foreground/10 text-foreground border border-border-color hover:border-amber-500/30 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors shadow-lg"
+              title="Close"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div 
+            className="relative w-full h-full max-w-6xl max-h-[85vh] flex flex-col justify-center items-center gap-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative w-full flex-1 rounded-2xl overflow-hidden border border-border-color bg-zinc-950 p-2 shadow-2xl animate-scale-up">
+              <Image
+                src={currentPlan.image}
+                alt={currentPlan.name}
+                fill
+                className="object-contain"
+                sizes="(max-w-6xl) 100vw, 1200px"
+              />
+            </div>
+            
+            <div className="text-center max-w-2xl px-4">
+              <h4 className="text-xl font-serif text-[#faf9f6] tracking-wide uppercase">{currentPlan.name}</h4>
+              <p className="text-amber-500 font-mono text-xs uppercase tracking-widest mt-1.5">
+                {currentPlan.area} &bull; {currentPlan.facing} &bull; {currentPlan.road}
+              </p>
+              <p className="text-white/60 font-sans font-light text-xs mt-2 leading-relaxed">
+                {currentPlan.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
