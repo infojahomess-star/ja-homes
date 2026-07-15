@@ -11,29 +11,72 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 connectDB();
 
-// Middleware
-const allowedOrigins = process.env.CORS_ORIGIN 
-  ? process.env.CORS_ORIGIN.split(",").map(o => o.trim())
-  : [
-      "http://localhost:3000",
-      "https://jahomess.com",
-      "https://www.jahomess.com",
-      "https://ja-homes.vercel.app"
-    ];
+// ── Startup Environment Audit ─────────────────────────────────────────────────
+const REQUIRED_ENV = ["MONGODB_URI", "JWT_SECRET", "RESEND_API_KEY", "ADMIN_EMAIL", "CLOUDINARY_CLOUD_NAME", "CLOUDINARY_API_KEY", "CLOUDINARY_API_SECRET", "EMAIL_FROM"];
+console.log("─── JA Homes Backend Startup ───────────────────────────────");
+console.log(`   NODE_ENV : ${process.env.NODE_ENV || "not set (defaulting to development)"}`);
+console.log(`   PORT     : ${process.env.PORT || 5000}`);
+REQUIRED_ENV.forEach(key => {
+  const val = process.env[key];
+  console.log(`   ${key.padEnd(24)}: ${val ? "✅ SET" : "❌ MISSING"}`);
+});
+console.log("────────────────────────────────────────────────────────────");
 
-app.use(cors({
+
+// ── CORS Configuration ───────────────────────────────────────────────────────
+// Hardcoded production origins — do NOT rely on env var parsing alone
+const HARDCODED_ORIGINS = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "https://jahomess.com",
+  "https://www.jahomess.com",
+  "https://ja-homes.vercel.app",
+  "https://ja-homes.onrender.com"
+];
+
+// Merge with any additional origins from env (for future flexibility)
+const extraOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map(o => o.trim()).filter(Boolean)
+  : [];
+
+const allowedOrigins = [...new Set([...HARDCODED_ORIGINS, ...extraOrigins])];
+
+console.log("✅ CORS allowed origins:", allowedOrigins);
+
+const corsOptions = {
   origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, postman, or curl)
+    // Allow requests with no origin (Postman, curl, mobile apps, server-to-server)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes("*")) {
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error(`Origin ${origin} not allowed by CORS`));
+      console.warn(`🚫 CORS blocked request from origin: ${origin}`);
+      callback(new Error(`CORS: Origin ${origin} not allowed`));
     }
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"]
+};
+
+// Apply CORS — must be before all routes
+app.use(cors(corsOptions));
+
+// Explicitly handle OPTIONS preflight for all routes
+app.options("*", cors(corsOptions));
 app.use(express.json());
+
+// ── Request Logger ────────────────────────────────────────────────────────────
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    const origin = req.headers.origin || "no-origin";
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} → ${res.statusCode} (${duration}ms) from ${origin}`);
+  });
+  next();
+});
+
 
 // Ensure data directory exists (kept for local backups/fallbacks)
 const DATA_DIR = path.join(__dirname, "data");

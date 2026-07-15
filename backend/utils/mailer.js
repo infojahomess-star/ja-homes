@@ -288,7 +288,7 @@ const sendBookingEmail = async (booking) => {
     
     <p>Your itinerary details have been synchronized. If you need to make changes or reschedule your appointment, please contact your concierge representative.</p>
     <center>
-      <a href="${process.env.CORS_ORIGIN || "http://localhost:3000"}/book" class="cta-btn">View My Bookings</a>
+      <a href="https://www.jahomess.com/book" class="cta-btn">View My Bookings</a>
     </center>
     `
   );

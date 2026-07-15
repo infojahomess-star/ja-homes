@@ -32,22 +32,28 @@ const decodeTokenOptional = (req, res, next) => {
 // @route   POST api/bookings
 // @desc    Create a new private tour booking
 router.post("/", decodeTokenOptional, async (req, res) => {
+  const origin = req.headers.origin || "no-origin";
+  console.log(`[BOOKING] Incoming submission from ${origin}`, { name: req.body?.name, email: req.body?.email, property: req.body?.property, date: req.body?.date });
+
   try {
     const { name, email, phone, date, timeSlot, tourType, property, config } = req.body;
 
     if (!name || !email || !phone || !date) {
+      console.warn("[BOOKING] Validation failed — missing required fields");
       return res.status(400).json({ message: "Please fill all required fields" });
     }
 
     if (!validateEmail(email)) {
+      console.warn(`[BOOKING] Validation failed — invalid email: ${email}`);
       return res.status(400).json({ message: "Please enter a valid email address" });
     }
 
     // Validate booking date (must not be in the past)
     const bookingDateObj = new Date(date);
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // start of today
+    today.setHours(0, 0, 0, 0);
     if (isNaN(bookingDateObj.getTime()) || bookingDateObj < today) {
+      console.warn(`[BOOKING] Validation failed — invalid date: ${date}`);
       return res.status(400).json({ message: "Please choose a valid date in the future" });
     }
 
@@ -66,13 +72,18 @@ router.post("/", decodeTokenOptional, async (req, res) => {
     });
 
     await newBooking.save();
+    console.log(`[BOOKING] ✅ Saved to DB — ID: ${customId}, property: ${property}, date: ${date}`);
 
     // Dispatch email confirmation asynchronously
-    sendBookingEmail(newBooking);
+    sendBookingEmail(newBooking).then(() => {
+      console.log(`[BOOKING] ✅ Email dispatched for ${customId}`);
+    }).catch(err => {
+      console.error(`[BOOKING] ❌ Email failed for ${customId}:`, err.message);
+    });
 
     res.status(201).json(newBooking);
   } catch (error) {
-    console.error("Booking creation error:", error);
+    console.error("[BOOKING] ❌ Server error:", error.message);
     res.status(500).json({ message: "Server error during booking" });
   }
 });
