@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const JWT_SECRET = process.env.JWT_SECRET || "ja_homes_secret_key_12345";
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@jahomes.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "info.jahomess@gmail.com";
 
 // Helper to validate email format
 const validateEmail = (email) => {

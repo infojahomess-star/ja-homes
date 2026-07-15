@@ -11,7 +11,7 @@ if (resendApiKey) {
 }
 
 const EMAIL_FROM = process.env.EMAIL_FROM || "JA Homes <onboarding@resend.dev>";
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@jahomes.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "info.jahomess@gmail.com";
 
 /**
  * Shared HTML styling helper for luxury brand look
