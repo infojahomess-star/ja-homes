@@ -1,4 +1,4 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/_next/"],
       },
     ],
-    sitemap: "https://jahomes.in/sitemap.xml",
-    host: "https://jahomes.in",
+    sitemap: "https://jahomess.com/sitemap.xml",
+    host: "https://jahomess.com",
   };
 }
