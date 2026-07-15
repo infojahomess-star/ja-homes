@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState, createElement, useMemo, useCallback } from "react";
-import { gsap } from "gsap";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import "./TextType.css";
 
 interface TextTypeProps {
@@ -86,21 +85,7 @@ export default function TextType({
     return () => observer.disconnect();
   }, [startOnVisible]);
 
-  useEffect(() => {
-    if (showCursor && cursorRef.current) {
-      gsap.set(cursorRef.current, { opacity: 1 });
-      const anim = gsap.to(cursorRef.current, {
-        opacity: 0,
-        duration: cursorBlinkDuration,
-        repeat: -1,
-        yoyo: true,
-        ease: "power2.inOut"
-      });
-      return () => {
-        anim.kill();
-      };
-    }
-  }, [showCursor, cursorBlinkDuration]);
+
 
   useEffect(() => {
     if (!isVisible) return;
@@ -192,6 +177,7 @@ export default function TextType({
         <span
           ref={cursorRef}
           className={`text-type__cursor ${cursorClassName} ${shouldHideCursor ? "text-type__cursor--hidden" : ""}`}
+          style={{ animationDuration: `${cursorBlinkDuration * 2}s` }}
         >
           {cursorCharacter}
         </span>

@@ -228,19 +228,26 @@ export default function Home() {
             </div>
 
             {/* Headline */}
-            <div className="min-h-[100px] md:min-h-[140px] flex items-center">
-              {hasEntered && (
-                <TextType
-                  text="Crafting Architectural Sanctuaries"
-                  as="h1"
-                  className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground tracking-wide font-light leading-tight"
-                  typingSpeed={60}
-                  initialDelay={400}
-                  showCursor={true}
-                  cursorCharacter="|"
-                  loop={false}
-                />
-              )}
+            <div className="relative w-full flex items-center">
+              {/* Layout Reserver: rendered on first paint / SSR to occupy correct height */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground tracking-wide font-light leading-tight opacity-0 select-none pointer-events-none" aria-hidden="true">
+                Crafting Architectural Sanctuaries
+              </h1>
+              {/* Absolute Typing Layer: overlays typing text without affecting parent dimensions */}
+              <div className="absolute inset-0 flex items-center">
+                {hasEntered && (
+                  <TextType
+                    text="Crafting Architectural Sanctuaries"
+                    as="h1"
+                    className="text-4xl md:text-5xl lg:text-6xl font-serif text-foreground tracking-wide font-light leading-tight"
+                    typingSpeed={60}
+                    initialDelay={400}
+                    showCursor={true}
+                    cursorCharacter="|"
+                    loop={false}
+                  />
+                )}
+              </div>
             </div>
 
             {/* Subtitle / Intro paragraph */}
@@ -307,7 +314,7 @@ export default function Home() {
                   src="/hero_final_frame.jpg"
                   alt="Luxury sustainable residence exterior at dusk"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 750px"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 pointer-events-none"
                   priority
                 />
@@ -361,7 +368,7 @@ export default function Home() {
                     src="/villa_interior.jpg"
                     alt="Minimalist modern luxury interior lounge room"
                     fill
-                    sizes="(max-width: 1024px) 50vw, 30vw"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 30vw, 380px"
                     className="object-cover transition-transform duration-700 ease-out group-hover/sec:scale-105 pointer-events-none"
                   />
                   
@@ -497,7 +504,7 @@ export default function Home() {
                             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
                             alt="Sander House luxury sustainable residence"
                             fill
-                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                             className="object-cover pointer-events-none"
                             priority
                           />
@@ -542,7 +549,7 @@ export default function Home() {
                               src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80"
                               alt="Minimalist lounge room"
                               fill
-                              sizes="(max-width: 1024px) 100vw, 50vw"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                               className="object-cover pointer-events-none"
                             />
                           </div>
@@ -629,7 +636,7 @@ export default function Home() {
         </section>
 
         {/* ── 03 · SENSORY DETAILING ─────────────────────────────────────── */}
-        <section ref={tactilityRef} className="min-h-screen flex items-center py-20 relative z-30 transition-transform duration-100 ease-out" style={{ transform: `translateY(${parallaxY}px)` }}>
+        <section ref={tactilityRef} className="min-h-screen flex items-center py-20 relative z-30" style={{ transform: `translateY(${parallaxY}px)` }}>
           {/* Drifting Cinematic Particles / Ambient Dust Overlay */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
             <div className="absolute top-1/4 left-1/3 w-1.5 h-1.5 rounded-full bg-amber-500/40 animate-dust-1" />
@@ -669,7 +676,7 @@ export default function Home() {
                   src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80"
                   alt="Tactile mockup of brushed marble slabs, warm cedar woods, and brass fixtures"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                   className="object-cover transition-transform duration-700 ease-out hover:scale-105"
                 />
               </div>
@@ -683,7 +690,7 @@ export default function Home() {
         {/* ── 04 · BESPOKE SANCTUARIES ───────────────────────────────────── */}
         <section 
           ref={legacyRef} 
-          className="min-h-screen flex items-center py-20 relative z-30 transition-all duration-300 ease-out"
+          className="min-h-screen flex items-center py-20 relative z-30 transition-opacity duration-300 ease-out"
           style={{ transform: `translateY(${legacyExitY}px)`, opacity: legacyExitOpacity }}
         >
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -699,7 +706,7 @@ export default function Home() {
                   src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80"
                   alt="Modern architectural villa glowing warmly during twilight hours"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                   className="object-cover transition-transform duration-700 ease-out hover:scale-105"
                   priority
                 />
@@ -773,7 +780,7 @@ export default function Home() {
                     src="/alpine_crest.jpg"
                     alt="Scenic Alpine Crest luxury estate"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                     className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 noise-overlay z-10" />
@@ -811,7 +818,7 @@ export default function Home() {
                     src="/zenith_penthouse.jpg"
                     alt="Modern luxury estate interior looking over skyline"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                     className="object-cover transition-transform duration-800 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 noise-overlay z-10" />

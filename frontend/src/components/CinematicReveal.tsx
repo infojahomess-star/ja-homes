@@ -47,7 +47,7 @@ export default function CinematicReveal({
   return (
     <div
       ref={elementRef}
-      className={`transition-all ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`transition-[transform,opacity] ease-[cubic-bezier(0.16,1,0.3,1)] ${
         isVisible
           ? "opacity-100 translate-y-0 scale-100"
           : "opacity-0 translate-y-12 scale-105"

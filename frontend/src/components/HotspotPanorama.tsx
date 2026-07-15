@@ -260,7 +260,7 @@ export default function HotspotPanorama() {
                     src="/villa_interior.jpg"
                     alt="Luxury Villa Living Room Interior"
                     fill
-                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 750px"
                     className={`object-cover ${selectedHotspot ? "" : "animate-ken-burns"}`}
                     priority
                   />
@@ -279,7 +279,7 @@ export default function HotspotPanorama() {
                           src={hotspot.closeupUrl}
                           alt={`${hotspot.title} closeup detail`}
                           fill
-                          sizes="(max-width: 1024px) 100vw, 60vw"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 750px"
                           className="object-cover"
                         />
                       </div>
