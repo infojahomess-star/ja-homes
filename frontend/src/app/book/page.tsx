@@ -70,6 +70,8 @@ function BookingPageContent() {
   const [bookedPass, setBookedPass] = useState<Booking | null>(null);
   const [myBookings, setMyBookings] = useState<Booking[]>([]);
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  // Honeypot: always empty for real users, bots fill it
+  const [honey, setHoney] = useState("");
 
   // Custom configuration parsed from URL
   const [customConfig, setCustomConfig] = useState<{
@@ -197,7 +199,7 @@ function BookingPageContent() {
       const response = await fetchWithTimeout(`${apiBaseUrl}/bookings`, {
         method: "POST",
         headers,
-        body: JSON.stringify(bookingPayload)
+        body: JSON.stringify({ ...bookingPayload, _honey: honey })
       }, 15000);
 
       if (response.ok) {
@@ -211,6 +213,11 @@ function BookingPageContent() {
         fetchBookings();
         setBookingDate("");
         window.dispatchEvent(new Event("storage"));
+        setSubmitting(false);
+        return;
+      } else if (response.status === 429) {
+        const errData = await response.json().catch(() => ({}));
+        setFormFeedback({ type: "error", text: errData.message || "Too many requests. Please wait 15 minutes before trying again." });
         setSubmitting(false);
         return;
       } else {
@@ -641,6 +648,20 @@ function BookingPageContent() {
                 />
               </div>
 
+              {/* Honeypot — hidden from real users, catches bots */}
+              <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", overflow: "hidden", opacity: 0 } as React.CSSProperties}>
+                <label htmlFor="_honey_book">Leave this field blank</label>
+                <input
+                  type="text"
+                  id="_honey_book"
+                  name="_honey"
+                  value={honey}
+                  onChange={e => setHoney(e.target.value)}
+                  autoComplete="off"
+                  tabIndex={-1}
+                />
+              </div>
+
               <button
                 type="submit"
                 disabled={submitting}
@@ -660,6 +681,7 @@ function BookingPageContent() {
                 )}
               </button>
             </form>
+
           </div>
         </div>
       </div>

@@ -28,6 +28,8 @@ export default function Contact() {
     message: "",
     interest: "General Inquiry"
   });
+  // Honeypot: always empty for real users, bots fill it
+  const [honey, setHoney] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseMsg, setResponseMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -51,10 +53,8 @@ export default function Contact() {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const response = await fetchWithTimeout(`${apiUrl}/api/contact`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, _honey: honey })
       }, 10000);
 
       const data = await response.json();
@@ -62,6 +62,9 @@ export default function Contact() {
       if (response.ok) {
         setResponseMsg({ type: "success", text: data.message || "Message submitted successfully. We'll respond within 12 business hours." });
         setFormData({ name: "", email: "", phone: "", message: "", interest: "General Inquiry" });
+        setHoney("");
+      } else if (response.status === 429) {
+        setResponseMsg({ type: "error", text: data.message || "Too many submissions. Please wait 15 minutes before trying again." });
       } else {
         setResponseMsg({ type: "error", text: data.message || "Failed to submit message." });
       }
@@ -292,6 +295,20 @@ export default function Contact() {
                     <Send size={14} />
                   </span>
                 </div>
+              </div>
+
+              {/* Honeypot — hidden from real users, catches bots */}
+              <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", overflow: "hidden", opacity: 0, tabIndex: -1 } as React.CSSProperties}>
+                <label htmlFor="_honey">Leave this field blank</label>
+                <input
+                  type="text"
+                  id="_honey"
+                  name="_honey"
+                  value={honey}
+                  onChange={e => setHoney(e.target.value)}
+                  autoComplete="off"
+                  tabIndex={-1}
+                />
               </div>
 
               {/* Submit button */}
