@@ -52,6 +52,17 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 
 
+// Root API Welcome / Health Check
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "JA Homes Backend API is running successfully.",
+    version: "1.0.0",
+    status: "online",
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Health Check
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "JA Homes Backend running" });
