@@ -42,6 +42,20 @@ interface Booking {
   } | null;
 }
 
+// Fetch with AbortController timeout
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 10000): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return response;
+  } catch (err) {
+    clearTimeout(id);
+    throw err;
+  }
+}
+
 function BookingPageContent() {
   const searchParams = useSearchParams();
   const { token, user, apiBaseUrl } = useAuth();
@@ -52,6 +66,7 @@ function BookingPageContent() {
   const [bookingTime, setBookingTime] = useState("10:00 AM");
   const [tourType, setTourType] = useState("In-Person Private Tour");
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
   const [bookedPass, setBookedPass] = useState<Booking | null>(null);
   const [myBookings, setMyBookings] = useState<Booking[]>([]);
   const [formFeedback, setFormFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -88,14 +103,14 @@ function BookingPageContent() {
 
       const emailQuery = !token && formData.email ? `?email=${encodeURIComponent(formData.email)}` : "";
       
-      const res = await fetch(`${apiBaseUrl}/bookings${emailQuery}`, { headers });
+      const res = await fetchWithTimeout(`${apiBaseUrl}/bookings${emailQuery}`, { headers }, 10000);
       if (res.ok) {
         const data = await res.json();
         setMyBookings(data);
         return;
       }
     } catch (e) {
-      console.warn("Express backend offline, loading bookings from localStorage");
+      console.warn("Express backend offline or slow, loading bookings from localStorage");
     }
 
     // Local Storage Fallback
@@ -153,9 +168,11 @@ function BookingPageContent() {
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormFeedback(null);
+    setSubmitting(true);
 
     if (!formData.name || !formData.email || !formData.phone || !bookingDate) {
       setFormFeedback({ type: "error", text: "Please fill out all required fields." });
+      setSubmitting(false);
       return;
     }
 
@@ -177,16 +194,16 @@ function BookingPageContent() {
         headers["Authorization"] = `Bearer ${token}`;
       }
 
-      const response = await fetch(`${apiBaseUrl}/bookings`, {
+      const response = await fetchWithTimeout(`${apiBaseUrl}/bookings`, {
         method: "POST",
         headers,
         body: JSON.stringify(bookingPayload)
-      });
+      }, 15000);
 
       if (response.ok) {
         const newBooking = await response.json();
         setBookedPass(newBooking);
-        setFormFeedback({ type: "success", text: "Appointment securely scheduled!" });
+        setFormFeedback({ type: "success", text: "Appointment securely scheduled! A confirmation email will be sent shortly." });
         
         const savedBookings = JSON.parse(localStorage.getItem("ja_homes_bookings") || "[]");
         localStorage.setItem("ja_homes_bookings", JSON.stringify([newBooking, ...savedBookings]));
@@ -194,10 +211,16 @@ function BookingPageContent() {
         fetchBookings();
         setBookingDate("");
         window.dispatchEvent(new Event("storage"));
+        setSubmitting(false);
+        return;
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        setFormFeedback({ type: "error", text: errData.message || "Booking failed. Please try again." });
+        setSubmitting(false);
         return;
       }
     } catch (error) {
-      console.warn("Express backend offline, scheduling booking locally");
+      console.warn("Backend unreachable, scheduling booking locally");
     }
 
     // Local Storage Fallback Booking
@@ -217,9 +240,10 @@ function BookingPageContent() {
     setMyBookings(updated);
     localStorage.setItem("ja_homes_bookings", JSON.stringify(updated));
     setBookedPass(newLocalBooking);
-    setFormFeedback({ type: "success", text: "Scheduled locally (Backend server offline)." });
+    setFormFeedback({ type: "error", text: "Could not reach the server. Your pass was saved locally — please retry or contact concierge directly." });
     setBookingDate("");
     window.dispatchEvent(new Event("storage"));
+    setSubmitting(false);
   };
 
   const handleDeleteBooking = async (id: string) => {
@@ -228,10 +252,10 @@ function BookingPageContent() {
       if (token) {
         headers["Authorization"] = `Bearer ${token}`;
       }
-      const response = await fetch(`${apiBaseUrl}/bookings/${id}`, {
+      const response = await fetchWithTimeout(`${apiBaseUrl}/bookings/${id}`, {
         method: "DELETE",
         headers
-      });
+      }, 10000);
 
       if (response.ok) {
         if (bookedPass?.id === id) {
@@ -247,7 +271,7 @@ function BookingPageContent() {
         return;
       }
     } catch (e) {
-      console.warn("Express backend offline, deleting booking locally");
+      console.warn("Backend unreachable, deleting booking locally");
     }
 
     // Local delete
@@ -619,11 +643,21 @@ function BookingPageContent() {
 
               <button
                 type="submit"
-                className="w-full bg-gold-gradient text-black font-semibold text-xs uppercase tracking-widest py-4 rounded-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-lg shadow-amber-500/10 cursor-pointer flex items-center justify-center gap-2 hover:shadow-amber-500/20 group/btn"
+                disabled={submitting}
+                className="w-full bg-gold-gradient text-black font-semibold text-xs uppercase tracking-widest py-4 rounded-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-lg shadow-amber-500/10 cursor-pointer flex items-center justify-center gap-2 hover:shadow-amber-500/20 group/btn disabled:opacity-70 disabled:cursor-wait disabled:scale-100"
                 id="submit-booking-button"
               >
-                Submit Booking Request
-                <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform duration-300" />
+                {submitting ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-black/40 border-t-black rounded-full animate-spin" />
+                    Connecting to Server...
+                  </>
+                ) : (
+                  <>
+                    Submit Booking Request
+                    <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </>
+                )}
               </button>
             </form>
           </div>

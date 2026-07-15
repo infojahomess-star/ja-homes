@@ -23,6 +23,27 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? `${process.env.NEXT_PUBLIC_API_URL}/api`
   : "http://localhost:5000/api";
 
+// Helper: fetch with timeout (default 10 seconds)
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 10000): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return response;
+  } catch (err) {
+    clearTimeout(id);
+    throw err;
+  }
+}
+
+// Silently wake up the Render backend on app start (prevents cold-start delays on first user action)
+if (typeof window !== "undefined") {
+  fetchWithTimeout(`${API_BASE_URL}/health`, {}, 15000).catch(() => {
+    // Ignore — this is a silent warm-up ping
+  });
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -39,11 +60,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       
       // Verify token with backend
-      fetch(`${API_BASE_URL}/auth/me`, {
+      fetchWithTimeout(`${API_BASE_URL}/auth/me`, {
         headers: {
           Authorization: `Bearer ${savedToken}`
         }
-      })
+      }, 10000)
         .then((res) => {
           if (!res.ok) {
             // Token is invalid/expired
@@ -75,13 +96,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ email, password })
-      });
+      }, 10000);
 
       const data = await response.json();
 
@@ -116,13 +137,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signup = async (name: string, email: string, password: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ name, email, password })
-      });
+      }, 10000);
 
       const data = await response.json();
 

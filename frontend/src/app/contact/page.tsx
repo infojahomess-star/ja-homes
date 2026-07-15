@@ -6,6 +6,20 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ScrollReveal from "../../components/ScrollReveal";
 
+// Fetch with AbortController timeout
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 10000): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return response;
+  } catch (err) {
+    clearTimeout(id);
+    throw err;
+  }
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -35,30 +49,29 @@ export default function Contact() {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-      const response = await fetch(`${apiUrl}/api/contact`, {
+      const response = await fetchWithTimeout(`${apiUrl}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(formData)
-      });
+      }, 10000);
 
       const data = await response.json();
 
       if (response.ok) {
-        setResponseMsg({ type: "success", text: data.message || "Message submitted successfully." });
+        setResponseMsg({ type: "success", text: data.message || "Message submitted successfully. We'll respond within 12 business hours." });
         setFormData({ name: "", email: "", phone: "", message: "", interest: "General Inquiry" });
       } else {
         setResponseMsg({ type: "error", text: data.message || "Failed to submit message." });
       }
     } catch (error) {
       console.error("Contact form error:", error);
-      // Fallback local submission
+      // Fallback message for server errors or cold-start timeouts
       setResponseMsg({ 
-        type: "success", 
-        text: "Your message has been saved locally. (Backend server is currently offline)" 
+        type: "error", 
+        text: "Could not reach the server. Please email us directly at info.jahomess@gmail.com or call +91 98110 86206." 
       });
-      setFormData({ name: "", email: "", phone: "", message: "", interest: "General Inquiry" });
     } finally {
       setLoading(false);
     }
